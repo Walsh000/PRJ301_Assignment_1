@@ -4,6 +4,8 @@
  */
 package object;
 
+import java.sql.Date;
+
 /**
  *
  * @author Khuat Thi Minh Anh
@@ -13,17 +15,34 @@ public class User {
     private String userID;
     private String userGmail;
     private String userPassword;
+    private String username;
+    private boolean gender;
+    private Date dateOfBirth;
     private Role userRole;
 
     public User() {
     }
 
-    public User(String userID, String userGmail, String userPassword, Role userRole) {
+    public User(String userID, String userGmail, String userPassword, String username, boolean gender, Date dateOfBirth, Role userRole) {
         this.userID = userID;
         this.userGmail = userGmail;
         this.userPassword = userPassword;
+        this.username = username;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
         this.userRole = userRole;
     }
+
+    public User(String userGmail, String userPassword, String username, boolean gender, Date dateOfBirth, Role userRole) {
+        this.userGmail = userGmail;
+        this.userPassword = userPassword;
+        this.username = username;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.userRole = userRole;
+    }
+    
+    
 
     public String getUserID() {
         return userID;
@@ -55,6 +74,30 @@ public class User {
 
     public void setUserRole(Role userRole) {
         this.userRole = userRole;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     
