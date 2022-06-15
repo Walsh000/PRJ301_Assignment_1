@@ -23,6 +23,20 @@ public class User {
     public User() {
     }
 
+    public User(String userID) {
+        this.userID = userID;
+    }
+
+    public User(User user) {
+        this.userID = user.getUserID();
+        this.userGmail = user.getUserGmail();
+        this.userPassword = user.getUserPassword();
+        this.username = user.getUsername();
+        this.gender = user.isGender();
+        this.dateOfBirth = user.getDateOfBirth();
+        this.userRole = user.getUserRole();
+    }
+
     public User(String userID, String userGmail, String userPassword, String username, boolean gender, Date dateOfBirth, Role userRole) {
         this.userID = userID;
         this.userGmail = userGmail;
@@ -41,8 +55,6 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.userRole = userRole;
     }
-    
-    
 
     public String getUserID() {
         return userID;
@@ -100,5 +112,4 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    
 }

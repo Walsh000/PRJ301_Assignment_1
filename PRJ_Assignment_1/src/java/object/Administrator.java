@@ -10,5 +10,23 @@ package object;
  * @author Khuat Thi Minh Anh
  */
 public class Administrator extends User {
+    private String AdministratorID;
 
+    public Administrator(String AdministratorID, User user) {
+        super(user);
+        this.AdministratorID = AdministratorID;
+    }
+
+    public Administrator() {
+    }
+
+    public Administrator(String AdministratorID, String userID) {
+        super(userID);
+        this.AdministratorID = AdministratorID;
+    }
+
+    public String getAdministratorID() {
+        return AdministratorID;
+    }
+    
 }

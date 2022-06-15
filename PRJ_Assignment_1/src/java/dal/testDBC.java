@@ -12,6 +12,10 @@ package dal;
 public class testDBC {
     public static void main(String[] args) {
         UserDBContext userDBC = new UserDBContext();
-        userDBC.generateData();
+        AdministratorDBContext adminDBC = new AdministratorDBContext();
+        StaffDBContext staffDBC = new StaffDBContext();
+        staffDBC.generateData();
+//        adminDBC.generateData();
+//        userDBC.generateData();
     }
 }
