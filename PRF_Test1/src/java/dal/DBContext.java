@@ -24,7 +24,7 @@ public abstract class DBContext<T> {
         try {
             String user = "M_Anh";
             String pass = "WhiteMoon";
-            String url = "jdbc:sqlserver://DESKTOP-0JSC32A\\SILVER_000\\SILVER_000:1433;databaseName=RectangleGen";
+            String url = "jdbc:sqlserver://DESKTOP-0JSC32A\\SILVER_000\\SILVER_000:1433;databaseName=PRJ301_Slot1_246";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (SQLException ex) {
