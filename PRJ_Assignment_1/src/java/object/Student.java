@@ -6,6 +6,7 @@
 package object;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,35 +14,35 @@ import java.sql.Date;
  */
 public class Student extends User {
     private String StudentID;
-    private Schedule Schedule;
+    private ArrayList<Group> groupList;
 
     public Student() {
     }
-
-    public Student(String StudentID, Schedule Schedule, String userID, String userGmail, String userPassword, String username, boolean gender, Date dateOfBirth, Role userRole) {
-        super(userID, userGmail, userPassword, username, gender, dateOfBirth, userRole);
-        this.StudentID = StudentID;
-        this.Schedule = Schedule;
-    }
+//
+//    public Student(String StudentID, Schedule Schedule, String userID, String userGmail, String userPassword, String username, boolean gender, Date dateOfBirth, Role userRole) {
+//        super(userID, userGmail, userPassword, username, gender, dateOfBirth, userRole);
+//        this.StudentID = StudentID;
+//        this.Schedule = Schedule;
+//    }
     
-    public Student(User user, String StudentID, Schedule Schedule) {
+    public Student(User user, String StudentID, ArrayList<Group> groupList) {
         super(user);
         this.StudentID = StudentID;
-        this.Schedule = Schedule;
+        this.groupList = groupList;
     }
 
-    public void setSchedule(Schedule Schedule) {
-        this.Schedule = Schedule;
-    }
-    
-    public String getStudentID() {
-        return StudentID;
-    }
-
-    public Schedule getSchedule() {
-        return Schedule;
-    }
-    
+//    public void setSchedule(Schedule Schedule) {
+//        this.Schedule = Schedule;
+//    }
+//    
+//    public String getStudentID() {
+//        return StudentID;
+//    }
+//
+//    public Schedule getSchedule() {
+//        return Schedule;
+//    }
+//    
 //    @Override
 //    public String toString() {
 //        return "UserID: " + getUserID() +"\n";

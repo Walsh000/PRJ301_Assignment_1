@@ -1,1 +1,8 @@
-
+body{
+    /*background-color: yellow*/
+    background-image: url("../image/template/Background3.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 712px;
+    /*background-position: center center;*/
+}
