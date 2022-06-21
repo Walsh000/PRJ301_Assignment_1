@@ -33,8 +33,6 @@ public abstract class DBContext<T> {
         }
     }
     
-    public abstract T get(int id);
-
     public abstract ArrayList<T> list();
 
     public abstract T get(T entity);

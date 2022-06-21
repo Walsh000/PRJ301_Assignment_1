@@ -1,8 +1,163 @@
+
+@import 'compass/css3';
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
 body{
     /*background-color: yellow*/
     background-image: url("../image/template/Background3.png");
     background-repeat: no-repeat;
     background-size: cover;
+    /*width: 100%;*/
     min-height: 712px;
+    margin: 0;
     /*background-position: center center;*/
+}
+header {
+    background-color: rgb(235, 125, 0);
+    /*width: 99%;*/
+    padding: 15px;
+    margin: 0;
+    display: block;
+    height: 30px
+}
+
+.headerText {
+    width: 400px;
+    display: block;
+    margin: auto;
+}
+
+.avatar {
+    width: 250px;
+    display: block;
+}
+
+.navi{
+    position: absolute;
+    top: 0;
+    width: 150px;
+    left:0;
+}
+
+.foot {
+    position: absolute;
+    bottom: 0;
+    width: 200px;
+    right: 0;
+}
+
+.container {
+    display: block;
+    margin: auto;
+}
+
+.stdInfor {
+    display: block;
+    margin: auto;
+    width: 700px;
+    font-size: 30px;
+}
+
+.sessionInfor {
+    display: block;
+    width: 60%;
+    margin: auto;
+    margin-top: 55px;
+    margin-bottom: 30px;
+}
+
+.title {
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-size: 60px
+}
+
+.infor {
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-size: 25px;
+}
+
+.checkboxWrapper {
+  width: 250px;
+  height: 65px;
+  position: relative;
+  margin: 20px auto;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  border-radius: 60px;
+  background: rgb(235, 125, 0);
+}
+
+.checkboxWrapper label {
+  position: absolute;
+  left: 190px;
+  top: 4px;
+  width: 56px;
+  height: 56px;
+  -webkit-border-radius: 28px;
+  -moz-border-radius: 28px;
+  border-radius: 28px;
+  background: #d00;
+  -webkit-transition: .2s;
+  -moz-transition: .2s;
+  -ms-transition: .2s;
+  -o-transition: .2s;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.checkboxWrapper svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.checkboxWrapper svg path {
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-width: 4;
+  -webkit-transition: opacity 0.1s;
+  transition: opacity 0.1s;
+  fill: none;
+  -webkit-transition: stroke-dashoffset 0.2s;
+  transition: stroke-dashoffset 0.2s;
+}
+
+.checkboxWrapper .checkmark path {
+  opacity: 0;
+}
+
+.checkboxWrapper .checkmark path:first-child{
+  stroke-dashoffset: 27px;
+}
+
+.checkboxWrapper .checkmark path:last-child{
+  stroke-dashoffset: 11px;
+}
+
+.checkboxWrapper .cross path {
+  opacity: 1;
+  stroke-dashoffset: 0px;
+}
+
+.checkboxWrapper input[type=checkbox] {
+  display: none;
+}
+
+.checkboxWrapper input[type=checkbox]:checked + label {
+  left: 4px;
+  background: #10ca01;
+}
+
+.checkboxWrapper input[type=checkbox]:checked + label .checkmark path {
+  opacity: 1;
+  stroke-dashoffset: 0px;
+}
+
+.checkboxWrapper input[type=checkbox]:checked + label .cross path {
+  opacity: 0;
+  stroke-dashoffset: 13px;
 }

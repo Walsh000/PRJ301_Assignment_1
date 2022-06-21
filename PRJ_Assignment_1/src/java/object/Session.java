@@ -13,6 +13,7 @@ import java.sql.Date;
  */
 public class Session {
     private String SessionID;
+    private Lecturer lecturer;
     private Slot Slot;
     private Group Group;
     private Date Date;
@@ -22,8 +23,9 @@ public class Session {
     public Session() {
     }
 
-    public Session(String SessionID, Slot Slot, Group Group, Date Date, Room Room, SessionContent sessionContent) {
+    public Session(String SessionID, Lecturer lecturer, Slot Slot, Group Group, Date Date, Room Room, SessionContent sessionContent) {
         this.SessionID = SessionID;
+        this.lecturer = lecturer;
         this.Slot = Slot;
         this.Group = Group;
         this.Date = Date;
@@ -77,6 +79,19 @@ public class Session {
 
     public void setSessionContent(SessionContent sessionContent) {
         this.sessionContent = sessionContent;
+    }
+
+    public Lecturer getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(Lecturer lecturer) {
+        this.lecturer = lecturer;
+    }
+
+    @Override
+    public String toString() { 
+        return "ID: " +SessionID + "\nLect: " + lecturer.getLecturerID() + "\nDate: " + Date + "\n\n";
     }
     
 }

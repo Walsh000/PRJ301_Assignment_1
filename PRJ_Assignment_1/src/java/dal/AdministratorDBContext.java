@@ -19,11 +19,6 @@ import object.Administrator;
 public class AdministratorDBContext extends DBContext<Administrator> {
 
     @Override
-    public Administrator get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public ArrayList<Administrator> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

@@ -20,11 +20,6 @@ import object.Staff;
 public class StaffDBContext extends DBContext<Staff>{
 
     @Override
-    public Staff get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public ArrayList<Staff> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -61,20 +56,19 @@ public class StaffDBContext extends DBContext<Staff>{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
-    public void generateData() {
-        try {
-            String sql = "Select userID, RoleID from [User] where RoleID = 1";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            int count = 0;
-            while (resultSet.next()) {
-                count ++;
-                Staff admin = new Staff("ST" + String.format("%06d", count), resultSet.getString("UserID"));
-                insert(admin);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(AdministratorDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void generateData() {
+//        try {
+//            String sql = "Select userID, RoleID from [User] where RoleID = 1";
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//            ResultSet resultSet = statement.executeQuery();
+//            int count = 0;
+//            while (resultSet.next()) {
+//                count ++;
+//                Staff staff = new Staff("SF" + String.format("%06d", count), resultSet.getString("UserID"));
+//                insert(staff);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(AdministratorDBContext.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }

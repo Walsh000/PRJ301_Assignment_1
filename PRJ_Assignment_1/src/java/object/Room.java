@@ -25,6 +25,10 @@ public class Room {
     public Room() {
     }
 
+    public Room(String RoomID) {
+        this.RoomID = RoomID;
+    }
+
     public String getRoomID() {
         return RoomID;
     }

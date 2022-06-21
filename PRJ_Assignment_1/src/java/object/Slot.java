@@ -24,6 +24,34 @@ public class Slot {
         this.StartTime = StartTime;
         this.EndTime = EndTime;
     }
+
+    public Slot(int SlotNo) {
+        this.SlotNo = SlotNo;
+    }
+
+    public int getSlotNo() {
+        return SlotNo;
+    }
+
+    public void setSlotNo(int SlotNo) {
+        this.SlotNo = SlotNo;
+    }
+
+    public Time getStartTime() {
+        return StartTime;
+    }
+
+    public void setStartTime(Time StartTime) {
+        this.StartTime = StartTime;
+    }
+
+    public Time getEndTime() {
+        return EndTime;
+    }
+
+    public void setEndTime(Time EndTime) {
+        this.EndTime = EndTime;
+    }
     
     
 }

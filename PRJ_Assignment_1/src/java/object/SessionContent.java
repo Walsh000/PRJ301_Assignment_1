@@ -22,6 +22,10 @@ public class SessionContent {
         this.Content = Content;
     }
 
+    public SessionContent(String SessionContentID) {
+        this.SessionContentID = SessionContentID;
+    }
+
     public SessionContent() {
     }
 
