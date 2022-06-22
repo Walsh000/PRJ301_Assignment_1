@@ -55,7 +55,7 @@ public class StudentDBContext extends DBContext<Student> {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, GroupID);
             ResultSet result = statement.executeQuery();
-            while (result.next()) {
+            if (result.next()) {
                 return result.getInt("total");
             }
         } catch (SQLException ex) {
@@ -67,7 +67,7 @@ public class StudentDBContext extends DBContext<Student> {
     public Student pagging(int index, String GroupID) {
         Student student = null;
         try {
-            String sql = "SELECT distinct u.UserID, s.StudentID, Username \n"
+            String sql = "SELECT distinct u.UserID, s.StudentID, Username, ImageURL \n"
                     + "FROM Student s \n"
                     + "inner join [User] u on s.UserID = u.UserID \n"
                     + "inner join Enroll e  on e.StudentID = s.StudentID\n"
@@ -83,6 +83,7 @@ public class StudentDBContext extends DBContext<Student> {
             if (results.next()) {
                 student = new Student(new User(results.getString("UserID"),
                         results.getString("Username")), results.getString("StudentID"));
+                student.setImageURL(results.getString("ImageURL"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);

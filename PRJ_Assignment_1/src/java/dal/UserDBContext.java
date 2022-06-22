@@ -6,13 +6,15 @@ package dal;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import object.RandomNameGenerator;
+//import object.RandomNameGenerator;
 import object.Role;
+import object.Student;
 import object.User;
 
 /**
@@ -58,7 +60,24 @@ public class UserDBContext extends DBContext<User> {
 
     @Override
     public void update(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            String sql = "UPDATE [dbo].[User]\n"
+//                    + "   SET [Gmail] = <Gmail, varchar(50),>\n"
+//                    + "      ,[Password] = <Password, varchar(50),>\n"
+//                    + "      ,[Username] = <Username, varchar(70),>\n"
+//                    + "      ,[RoleID] = <RoleID, int,>\n"
+//                    + "      ,[Gender] = <Gender, bit,>\n"
+//                    + "      ,[DateOfBirth] = <DateOfBirth, date,>\n"
+                    + "     SET [ImageURL] = ?\n"
+                    + " WHERE UserID = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, entity.getImageURL());
+            statement.setString(2, entity.getUserID());
+            statement.executeUpdate();
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -141,5 +160,15 @@ public class UserDBContext extends DBContext<User> {
 //        }
 //
 //    }
-
+    
+//    public void generateData() {
+//        for (int i = 0; i<500; i++) {
+//            String userID = String.format("1%012d", i+1);
+//            Student s = new Student();
+//            s.setUserID(userID);
+//            s.setImageURL("../image/user_Avatar/" + userID + ".png");
+//            update(s);
+//        }
+        
+//    }
 }

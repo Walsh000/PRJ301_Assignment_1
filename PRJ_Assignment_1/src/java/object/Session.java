@@ -15,7 +15,7 @@ public class Session {
     private String SessionID;
     private Lecturer lecturer;
     private Slot Slot;
-    private Group Group;
+    private Group group;
     private Date Date;
     private Room Room;
     private SessionContent sessionContent;
@@ -27,7 +27,7 @@ public class Session {
         this.SessionID = SessionID;
         this.lecturer = lecturer;
         this.Slot = Slot;
-        this.Group = Group;
+        this.group = Group;
         this.Date = Date;
         this.Room = Room;
         this.sessionContent = sessionContent;
@@ -50,11 +50,11 @@ public class Session {
     }
 
     public Group getGroup() {
-        return Group;
+        return group;
     }
 
     public void setGroup(Group Group) {
-        this.Group = Group;
+        this.group = Group;
     }
 
     public Date getDate() {

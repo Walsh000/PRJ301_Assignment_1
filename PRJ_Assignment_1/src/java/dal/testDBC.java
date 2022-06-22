@@ -37,7 +37,7 @@ public class testDBC {
 //        Session s = new Session(null, new Lecturer("LT000001", ""), new Slot(1), new Group("CEA201SU2202"), Date.valueOf("2022-05-02"), null, null);
 //        System.out.println(s);
 //        System.out.println(sessionDBC.get(s));
-        Student s = studentDBC.pagging(1, "CEA201SU2201");
-        System.out.println(s);
+//        Student s = studentDBC.pagging(1, "CEA201SU2201");
+//        System.out.println(s);
     }
 }

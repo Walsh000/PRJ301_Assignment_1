@@ -19,6 +19,7 @@ public class User {
     private boolean gender;
     private Date dateOfBirth;
     private Role userRole;
+    private String imageURL;
 
     public User() {
     }
@@ -115,6 +116,14 @@ public class User {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
 }

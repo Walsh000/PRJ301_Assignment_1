@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Lecturer extends User {
     
-    private String LecturerID;
+    private String lecturerID;
     private ArrayList<Group> groupList;
 
     public Lecturer() {
@@ -21,26 +21,26 @@ public class Lecturer extends User {
 
     public Lecturer(String LecturerID, User user) {
         super(user);
-        this.LecturerID = LecturerID;
+        this.lecturerID = LecturerID;
     }
 
     public Lecturer(String LecturerID, ArrayList<Group> groupList, User user) {
         super(user);
-        this.LecturerID = LecturerID;
+        this.lecturerID = LecturerID;
         this.groupList = groupList;
     }
 
     public Lecturer(String LecturerID, String userID) {
         super(userID);
-        this.LecturerID = LecturerID;
+        this.lecturerID = LecturerID;
     }
 
     public String getLecturerID() {
-        return LecturerID;
+        return lecturerID;
     }
 
     public void setLecturerID(String LecturerID) {
-        this.LecturerID = LecturerID;
+        this.lecturerID = LecturerID;
     }
 
     public ArrayList<Group> getGroupList() {

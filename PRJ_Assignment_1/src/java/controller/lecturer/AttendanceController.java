@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.lecturer;
 
 import dal.SessionDBContext;
@@ -25,21 +24,24 @@ import object.Student;
  * @author Silver_000
  */
 public class AttendanceController extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-    } 
+            throws ServletException, IOException {
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -47,34 +49,36 @@ public class AttendanceController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         SessionDBContext sessionDBC = new SessionDBContext();
         StudentDBContext studentDBC = new StudentDBContext();
-        
+
         Session session = new Session();
         session.setGroup(new Group(request.getParameter("groupID")));
         session.setDate(Date.valueOf(request.getParameter("date")));
         session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
         session = sessionDBC.get(session);
-        
+
         String rawIndex = request.getParameter("index");
-        if(rawIndex ==null)
-             rawIndex = "1";
+        if (rawIndex == null) {
+            rawIndex = "1";
+        }
         int index = Integer.parseInt(rawIndex);
         Student student = studentDBC.pagging(index, session.getGroup().getGroupID());
-        
-//        ArrayList<Student> studentList = sessionDBC.listStudent(session);
-//        request.setAttribute("studentList", studentList);
+
+        request.setAttribute("lecturer", session.getLecturer());
         request.setAttribute("student", student);
-//        request.setAttribute("username", student.getUsername());
+        request.setAttribute("index", index);
         request.setAttribute("course", session.getGroup().getCourse());
         request.setAttribute("date", session.getDate());
         request.setAttribute("slot", session.getSlot().getSlotNo());
+        request.setAttribute("session", session);
         request.getRequestDispatcher("../view/lecturer/attendance.jsp").forward(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -82,12 +86,46 @@ public class AttendanceController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {
+        SessionDBContext sessionDBC = new SessionDBContext();
+        StudentDBContext studentDBC = new StudentDBContext();
+
+        Session session = new Session();
+        session.setGroup(new Group(request.getParameter("groupID")));
+        session.setDate(Date.valueOf(request.getParameter("date")));
+        session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
+        session = sessionDBC.get(session);
+
+        boolean isAttend = request.getParameter("isAttend") != null;
+
+        int index;
+        String rawIndex = request.getParameter("index");
+        index = Integer.parseInt(rawIndex);
+
+//        Student student = studentDBC.pagging(index, session.getGroup().getGroupID());
+        index++;
+        if (index == studentDBC.count(session.getGroup().getGroupID())) {
+            request.getRequestDispatcher("../view/lectuer/Home.jsp").forward(request, response);
+        }
+        else {
+        Student student = studentDBC.pagging(index, session.getGroup().getGroupID());
+        
+        request.setAttribute("lecturer", session.getLecturer());
+        request.setAttribute("student", student);
+        request.setAttribute("index", index);
+        request.setAttribute("course", session.getGroup().getCourse());
+        request.setAttribute("date", session.getDate());
+        request.setAttribute("slot", session.getSlot().getSlotNo());
+        request.setAttribute("session", session);
+        request.getRequestDispatcher("../view/lecturer/attendance.jsp").forward(request, response);
+            
+        }
+
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

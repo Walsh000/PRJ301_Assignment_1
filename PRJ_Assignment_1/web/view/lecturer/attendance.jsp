@@ -12,70 +12,76 @@
         <title>JSP Page</title>
         <link href="../css/template.css" rel="stylesheet" type="text/css"/>
         <script src="../js/pagger.js" type="text/javascript"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
     <body>
         <header>
             <img class ="navi" src="../image/template/Detail05_1.png" alt=""/>
             <img class="headerText" src="../image/template/Detail03.png" alt=""/>
+            <table class="headerLect">
+                <tr>
+                    <td>
+                        <img class="lecturerImage" src="${requestScope.lecturer.imageURL}" alt=""/> 
+                    </td>
+                    
+                    <td>
+                        <span>${requestScope.lecturer.username}</span>
+                        <span>${requestScope.lecturer.lecturerID}</span>
+                    </td>
+                </tr>
+            </table>
         </header>
         <div class="container">
 
             <div class="sessionInfor">
                 <h1 class="title">Attendance</h1>
                 <h3 class="infor">${requestScope.course.courseID}    |    ${requestScope.date}    |    Slot: ${requestScope.slot}</h3>
-
             </div>
 
+            <form action="attendance" method="POST">
+                <table class="stdInfor">
 
-            <table class="stdInfor">
+                    <tr style="height: 30px">
+                        <td rowspan="4">
+                            <img class ="avatar" src="${requestScope.student.imageURL}" alt=""/>
+                            <!--<img class ="avatar" src="../image/user_Avatar/1000000000001.png" alt=""/>-->
+                        </td>
 
-                <tr style="height: 30px">
-                    <td rowspan="4">
-                        <img class ="avatar" src="../image/user_Avatar/1000000000036.png" alt=""/>
-                    </td>
+                    </tr>
 
-                </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-left: 15px" colspan="2">Name: ${requestScope.student.username}</td>
+                    </tr>
 
-                <tr style="height: 50px">
-                    <td style="padding-left: 15px">Name: ${requestScope.student.username}</td>
-                </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-left: 15px" colspan="2">
+                            ID: ${requestScope.student.studentID}
+                        </td>
+                    </tr>
 
-                <tr style="height: 50px">
-                    <td style="padding-left: 15px">
-                        ID: ${requestScope.student.studentID}
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <div class="flip-switch flip-switch-text">
+                                <input type="checkbox" id="c3" name="isAttend" unchecked/>
+                                <label for="c3"></label>
+                            </div>
 
-                <tr>
-                    <td>
-                        <div class="checkboxWrapper">
-                            <input type="checkbox" id="myCheckbox" checked/>
-                            <label for="myCheckbox">
-                                <svg class="checkmark" width="56" height="56">
-                                <path d="m25,36 l14,-16"
-                                      style="stroke-dasharray: 27px;"></path>
-                                <path d="m25,36 l-8,-9"
-                                      style="stroke-dasharray: 11px;"></path>
-                                </svg>
-                                <svg class="cross" width="56" height="56">
-                                <path d="m28,28 l-8,-8"
-                                      style="stroke-dasharray: 13px;"></path>
-                                <path d="m28,28 l8,8"
-                                      style="stroke-dasharray: 13px;"></path>
-                                <path d="m28,28 l-8,8"
-                                      style="stroke-dasharray: 13px;"></path>
-                                <path d="m28,28 l8,-8"
-                                      style="stroke-dasharray: 13px;"></path>
-                                </svg>
-                            </label>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+                            <input type="hidden" name="index" value="${requestScope.index}"/>
+                            <input type="hidden" name="date" value="${requestScope.date}"/>
+                            <input type="hidden" name="groupID" value="${requestScope.session.group.groupID}"/>
+                            <input type="hidden" name="slotNo" value="${requestScope.slot}"/>
+                        </td>
+                    </tr>
 
-        </div>
-        <footer>
-            <img class="foot" src="../image/template/Detail1_1.png" alt=""/>
-        </footer>
-    </body>
+                    <tr>
+                        <td colspan="2"><input class="submit" type="submit" value="Next"/></td>
+                    </tr>
+                </table>
+            </form>
+        </script>-->
+    </div>
+    <footer>
+        <img class="foot" src="../image/template/Detail1_1.png" alt=""/>
+    </footer>
+</body>
 </html>

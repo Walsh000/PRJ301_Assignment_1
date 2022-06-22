@@ -134,6 +134,7 @@ public class SessionDBContext extends DBContext<Session> {
                         + "      ,l.[LecturerID]\n"
                         + "      ,l.[UserID]\n"
                         + "      ,UserName\n"
+                        + "      ,ImageURL\n"
                         + "      ,g.[GroupID]\n"
                         + "      ,c.[CourseID]\n"
                         + "      ,c.[CourseName]\n"
@@ -159,6 +160,7 @@ public class SessionDBContext extends DBContext<Session> {
                 entity.setSessionID(resultSet.getString("SessionID"));
                 entity.setLecturer(new Lecturer(resultSet.getString("LecturerID"), 
                         new User(resultSet.getString("UserID"), resultSet.getString("Username"))));
+                entity.getLecturer().setImageURL(resultSet.getString("ImageURL"));
                 entity.setGroup(new Group(resultSet.getString("GroupID"), 
                         new Course(resultSet.getString("CourseID"), 
                                 resultSet.getString("CourseName"))));
