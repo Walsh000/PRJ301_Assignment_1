@@ -10,7 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import object.Course;
 import object.Group;
+import object.Semester;
 import object.Student;
 import object.User;
 
@@ -20,28 +22,29 @@ import object.User;
  */
 public class StudentDBContext extends DBContext<Student> {
 
-    public ArrayList<Student> list(Group group) {
+    public ArrayList<Group> list(Student student) {
         try {
-            String groupID = group.getGroupID();
-            group.setStudentList(new ArrayList<>());
-            String sql = "select u.UserID, s.StudentID, Username, e.GroupID\n"
+            student.setGroupList(new ArrayList<>());
+            String sql = "select u.UserID, s.StudentID, Username, g.GroupID, g.CourseID, g.SemesterID\n"
                     + "from Student s \n"
                     + "inner join [User] u on s.userID = u.UserID \n"
                     + "inner join Enroll e on e.StudentID = s.StudentID\n"
                     + "inner join [Group] g on g.GroupID = e.GroupID\n"
-                    + "WHERE g.GroupID = ?";
+                    + "WHERE s.StudentID = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, groupID);
+            statement.setString(1, student.getStudentID());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Student std = new Student(resultSet.getString("StudentID"), resultSet.getString("UserID"));
                 std.setUsername(resultSet.getString("Username"));
-                group.getStudentList().add(std);
+                student.getGroupList().add(new Group(resultSet.getString("GroupID"),
+                        new Course(resultSet.getString("CourseID")),
+                        new Semester(resultSet.getString("SemesterID"))));
             }
         } catch (SQLException ex) {
             Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return group.getStudentList();
+        return student.getGroupList();
     }
 
     public int count(String GroupID) {
@@ -93,7 +96,22 @@ public class StudentDBContext extends DBContext<Student> {
 
     @Override
     public ArrayList<Student> list() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Student> studentList = new ArrayList<>();
+        try {
+            String sql = "SELECT s.[UserID]\n"
+                    + "      ,[StudentID]\n"
+                    + "      ,[Username]\n"
+                    + "  FROM [Student] s inner join [User] u on s.UserID = u.UserID";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet results = statement.executeQuery();
+            while (results.next()) {
+                Student student = new Student(new User(results.getString("UserID"), results.getString("UserID")), results.getString("StudentID"));
+                studentList.add(student);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return studentList;
     }
 
     @Override

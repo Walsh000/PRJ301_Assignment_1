@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import object.Course;
@@ -158,11 +159,11 @@ public class SessionDBContext extends DBContext<Session> {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 entity.setSessionID(resultSet.getString("SessionID"));
-                entity.setLecturer(new Lecturer(resultSet.getString("LecturerID"), 
+                entity.setLecturer(new Lecturer(resultSet.getString("LecturerID"),
                         new User(resultSet.getString("UserID"), resultSet.getString("Username"))));
                 entity.getLecturer().setImageURL(resultSet.getString("ImageURL"));
-                entity.setGroup(new Group(resultSet.getString("GroupID"), 
-                        new Course(resultSet.getString("CourseID"), 
+                entity.setGroup(new Group(resultSet.getString("GroupID"),
+                        new Course(resultSet.getString("CourseID"),
                                 resultSet.getString("CourseName"))));
                 entity.setDate(resultSet.getDate("Date"));
 //                entity.setSlot(new Slot(resultSet.getInt("SlotNo")));
@@ -188,6 +189,38 @@ public class SessionDBContext extends DBContext<Session> {
     @Override
     public void delete(Session entity) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void generateData(String groupID, int slot, Date startDate, String roomID) {
+        Date currentDate = startDate;
+        String sql = "INSERT INTO [Session] "
+                + "(GroupID, "
+                + "Date, "
+                + "SlotNo, "
+                + "RoomID) "
+                + "VALUES "
+                + "(?, ?, ?, ?)";
+        for (int count = 1; count <= 10; count++) {
+            try {
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, groupID);
+                statement.setDate(2, currentDate);
+                statement.setInt(3, slot);
+                statement.setString(4, roomID);
+                statement.executeUpdate();
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            currentDate = addDays(currentDate, 7);
+        }
+    }
+
+    public static Date addDays(Date date, int days) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, days);
+        return new Date(c.getTimeInMillis());
     }
 
 }
