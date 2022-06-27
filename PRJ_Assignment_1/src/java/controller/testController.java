@@ -55,7 +55,7 @@ public class testController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        System.out.println(getServletContext().getContextPath() + "testController");
+//        System.out.println(getServletContext().getContextPath() + "testController");
     } 
 
     /** 

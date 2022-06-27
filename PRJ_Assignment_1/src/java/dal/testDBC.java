@@ -27,7 +27,7 @@ public class testDBC {
         SessionDBContext sessionDBC = new SessionDBContext();
         GroupDBContext groupDBC = new GroupDBContext();
         
-//        groupDBC.generateData();
+//        sessionDBC.generateData();
 
 //        sessionDBC.generateData("CEA201SU2201", 1, Date.valueOf("2022-05-02"), "AL301");
 //        sessionDBC.generateData("CEA201SU2201", 1, Date.valueOf("2022-05-04"), "AL301");

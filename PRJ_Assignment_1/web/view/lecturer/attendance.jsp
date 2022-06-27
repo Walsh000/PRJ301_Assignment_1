@@ -60,7 +60,7 @@
                     </tr>
 
                     <tr>
-                        <td>
+                        <td style="padding-top: 0px; height: 110px; ">
                             <div class="flip-switch flip-switch-text">
                                 <input type="checkbox" id="c3" name="isAttend" unchecked/>
                                 <label for="c3"></label>

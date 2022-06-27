@@ -4,6 +4,7 @@
  */
 package controller.lecturer;
 
+import dal.AttendanceDBContext;
 import dal.SessionDBContext;
 import dal.StudentDBContext;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.util.ArrayList;
+import object.Attendance;
 import object.Group;
 import object.Session;
 import object.Slot;
@@ -51,7 +53,7 @@ public class AttendanceController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         SessionDBContext sessionDBC = new SessionDBContext();
-        StudentDBContext studentDBC = new StudentDBContext();
+//        StudentDBContext studentDBC = new StudentDBContext();
 
         Session session = new Session();
         session.setGroup(new Group(request.getParameter("groupID")));
@@ -60,11 +62,11 @@ public class AttendanceController extends HttpServlet {
         session = sessionDBC.get(session);
 
         String rawIndex = request.getParameter("index");
-        if (rawIndex == null) {
+        if (rawIndex == null || rawIndex.compareTo("1") < 0) {
             rawIndex = "1";
         }
         int index = Integer.parseInt(rawIndex);
-        Student student = studentDBC.pagging(index, session.getGroup().getGroupID());
+        Student student = sessionDBC.listStudent(session).get(index);
 
         request.setAttribute("lecturer", session.getLecturer());
         request.setAttribute("student", student);
@@ -87,8 +89,9 @@ public class AttendanceController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SessionDBContext sessionDBC = new SessionDBContext();
         StudentDBContext studentDBC = new StudentDBContext();
+        SessionDBContext sessionDBC = new SessionDBContext();
+        AttendanceDBContext attendanceDBC = new AttendanceDBContext();
 
         Session session = new Session();
         session.setGroup(new Group(request.getParameter("groupID")));
@@ -102,23 +105,26 @@ public class AttendanceController extends HttpServlet {
         String rawIndex = request.getParameter("index");
         index = Integer.parseInt(rawIndex);
 
+        ArrayList<Student> studentList = sessionDBC.listStudent(session);
+        Student student = studentList.get(index);
+        Attendance attend = new Attendance(session, student, isAttend);
+        attendanceDBC.update(attend);
+
 //        Student student = studentDBC.pagging(index, session.getGroup().getGroupID());
         index++;
-        if (index == studentDBC.count(session.getGroup().getGroupID())) {
-            request.getRequestDispatcher("../view/lectuer/Home.jsp").forward(request, response);
-        }
-        else {
-        Student student = studentDBC.pagging(index, session.getGroup().getGroupID());
-        
-        request.setAttribute("lecturer", session.getLecturer());
-        request.setAttribute("student", student);
-        request.setAttribute("index", index);
-        request.setAttribute("course", session.getGroup().getCourse());
-        request.setAttribute("date", session.getDate());
-        request.setAttribute("slot", session.getSlot().getSlotNo());
-        request.setAttribute("session", session);
-        request.getRequestDispatcher("../view/lecturer/attendance.jsp").forward(request, response);
-            
+        if (index == studentList.size()) {
+            request.getRequestDispatcher("../view/lecturer/Home.jsp").forward(request, response);
+        } else {
+            student = studentList.get(index);
+
+            request.setAttribute("lecturer", session.getLecturer());
+            request.setAttribute("student", student);
+            request.setAttribute("index", index);
+            request.setAttribute("course", session.getGroup().getCourse());
+            request.setAttribute("date", session.getDate());
+            request.setAttribute("slot", session.getSlot().getSlotNo());
+            request.setAttribute("session", session);
+            request.getRequestDispatcher("../view/lecturer/attendance.jsp").forward(request, response);
         }
 
     }

@@ -39,14 +39,16 @@ public class SessionDBContext extends DBContext<Session> {
                         + "inner join [User] u on s.userID = u.UserID \n"
                         + "inner join Enroll e on e.StudentID = s.StudentID\n"
                         + "inner join [Session] ss on ss.GroupID = e.GroupID\n"
-                        + "WHERE ss.GroupID = ?"
-                        + "AND ss.Date = ?";
+                        + "WHERE ss.GroupID = ? "
+                        + "AND ss.Date = ? "
+                        + "AND ss.SlotNo = ?";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, entity.getGroup().getGroupID());
                 statement.setDate(2, entity.getDate());
+                statement.setInt(3, entity.getSlot().getSlotNo());
 
             } else {
-                String sql = "select u.UserID, s.StudentID, Username, e.GroupID, ss.Date\n"
+                String sql = "select u.UserID, s.StudentID, Username, e.GroupID, u.ImageURL\n"
                         + "from Student s \n"
                         + "inner join [User] u on s.userID = u.UserID \n"
                         + "inner join Enroll e on e.StudentID = s.StudentID\n"
@@ -60,6 +62,7 @@ public class SessionDBContext extends DBContext<Session> {
             while (resultSet.next()) {
                 Student std = new Student(resultSet.getString("StudentID"), resultSet.getString("UserID"));
                 std.setUsername(resultSet.getString("Username"));
+                std.setImageURL(resultSet.getString("ImageURL"));
                 studentList.add(std);
             }
         } catch (SQLException ex) {
@@ -109,7 +112,7 @@ public class SessionDBContext extends DBContext<Session> {
     public Session get(Session entity) {
         try {
             PreparedStatement statement;
-            if (entity.getSessionID() != null && entity.getSessionID() != "") {
+            if (entity.getSessionID() != null && !entity.getSessionID().equals("")) {
                 String sql = "SELECT [SessionID]\n"
                         + "      ,l.[LecturerID]\n"
                         + "      ,UserName\n"
@@ -191,29 +194,47 @@ public class SessionDBContext extends DBContext<Session> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public void generateData(String groupID, int slot, Date startDate, String roomID) {
-        Date currentDate = startDate;
-        String sql = "INSERT INTO [Session] "
-                + "(GroupID, "
-                + "Date, "
-                + "SlotNo, "
-                + "RoomID) "
-                + "VALUES "
-                + "(?, ?, ?, ?)";
-        for (int count = 1; count <= 10; count++) {
-            try {
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, groupID);
-                statement.setDate(2, currentDate);
-                statement.setInt(3, slot);
-                statement.setString(4, roomID);
-                statement.executeUpdate();
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+//    public void generateData(String groupID, int slot, Date startDate, String roomID) {
+        //        Date currentDate = startDate;
+//        String sql = "INSERT INTO [Session] "
+//                + "(GroupID, "
+//                + "Date, "
+//                + "SlotNo, "
+//                + "RoomID) "
+//                + "VALUES "
+//                + "(?, ?, ?, ?)";
+//        for (int count = 1; count <= 10; count++) {
+//            try {
+//                PreparedStatement statement = connection.prepareStatement(sql);
+//                statement.setString(1, groupID);
+//                statement.setDate(2, currentDate);
+//                statement.setInt(3, slot);
+//                statement.setString(4, roomID);
+//                statement.executeUpdate();
+//                
+//            } catch (SQLException ex) {
+//                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            currentDate = addDays(currentDate, 7);
+//        }
+//}
+    public void generateData() {
+        try {
+            String getGroupSQL = "SELECT GroupID, LecturerID FROM [GROUP]";
+            String updateLectSession = "UPDATE [Session] SET LecturerID = ? "
+                    + "WHERE GroupID = ?";
+            PreparedStatement setGroupStatement = connection.prepareStatement(getGroupSQL);
+            ResultSet resultSet = setGroupStatement.executeQuery();
+            while (resultSet.next()) {
+                PreparedStatement updateStatement = connection.prepareStatement(updateLectSession);
+                updateStatement.setString(1, resultSet.getString("LecturerID"));
+                updateStatement.setString(2, resultSet.getString("GroupID"));
+                updateStatement.executeUpdate();
             }
-            currentDate = addDays(currentDate, 7);
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     public static Date addDays(Date date, int days) {
