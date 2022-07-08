@@ -5,20 +5,18 @@
 
 package controller;
 
-import dal.UserDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import object.User;
 
 /**
  *
  * @author Silver_000
  */
-public class LoginController extends HttpServlet {
+public class LogoutController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -29,19 +27,8 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet login</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet login at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        request.getSession().invalidate();
+        request.getRequestDispatcher("view/login.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -55,7 +42,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("view/login.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -68,25 +55,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String gmail = request.getParameter("gmail");
-        String password = request.getParameter("password");
-        User inputUser = new User();
-        inputUser.setUserGmail(gmail);
-        inputUser.setUserPassword(password);
-        
-        UserDBContext userDBC = new UserDBContext();
-        User user = userDBC.get(inputUser);
-        
-        if(user == null) {
-            request.setAttribute("message", "This gmail is not valid.");
-            request.getRequestDispatcher("view/login.jsp").forward(request, response);
-        } else if (!user.getUserPassword().equals(inputUser.getUserPassword())) {
-            request.setAttribute("gmail", gmail);
-            request.setAttribute("message", "Password is wrong.");
-            request.getRequestDispatcher("view/login.jsp").forward(request, response);
-        } else {
-            request.getSession().setAttribute("user", user);
-        }
+        processRequest(request, response);
     }
 
     /** 

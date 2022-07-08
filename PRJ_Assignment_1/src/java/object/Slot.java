@@ -12,7 +12,7 @@ import java.sql.Time;
  * @author Khuat Thi Minh Anh
  */
 public class Slot {
-    private int SlotNo;
+    private int slotNo;
     private Time StartTime;
     private Time EndTime;
 
@@ -20,21 +20,21 @@ public class Slot {
     }
 
     public Slot(int SlotNo, Time StartTime, Time EndTime) {
-        this.SlotNo = SlotNo;
+        this.slotNo = SlotNo;
         this.StartTime = StartTime;
         this.EndTime = EndTime;
     }
 
     public Slot(int SlotNo) {
-        this.SlotNo = SlotNo;
+        this.slotNo = SlotNo;
     }
 
     public int getSlotNo() {
-        return SlotNo;
+        return slotNo;
     }
 
     public void setSlotNo(int SlotNo) {
-        this.SlotNo = SlotNo;
+        this.slotNo = SlotNo;
     }
 
     public Time getStartTime() {

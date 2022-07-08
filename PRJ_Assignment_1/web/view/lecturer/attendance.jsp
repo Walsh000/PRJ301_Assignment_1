@@ -12,30 +12,41 @@
         <title>JSP Page</title>
         <link href="../css/template.css" rel="stylesheet" type="text/css"/>
         <script src="../js/pagger.js" type="text/javascript"></script>
+        <link href="../css/AttendButton.css" rel="stylesheet" type="text/css"/>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
     <body>
         <header>
             <img class ="navi" src="../image/template/Detail05_1.png" alt=""/>
             <img class="headerText" src="../image/template/Detail03.png" alt=""/>
-            <table class="headerLect">
-                <tr>
-                    <td>
-                        <img class="lecturerImage" src="${requestScope.lecturer.imageURL}" alt=""/> 
-                    </td>
-                    
-                    <td>
-                        <span>${requestScope.lecturer.username}</span>
-                        <span>${requestScope.lecturer.lecturerID}</span>
-                    </td>
-                </tr>
-            </table>
+            <div class="dropdown">
+                <table class="headerLect dropbtn">
+                    <tr>
+                        <td>
+                            <img class="lecturerImage" src="${requestScope.lecturer.imageURL}" alt=""/> 
+                        </td>
+
+                        <td>
+                            <span>${requestScope.lecturer.username}
+                            </span>
+                            <span>${requestScope.lecturer.lecturerID}</span>
+                        </td>
+
+                        <td>
+                            <i class="fa fa-caret-down" style="color: #fff"></i>
+                        </td>
+                    </tr>
+                </table>
+                <div class="dropdown-content">
+                    <a href="../logout">Logout</a>
+                </div>
+            </div>
         </header>
         <div class="container">
 
             <div class="sessionInfor">
                 <h1 class="title">Attendance</h1>
-                <h3 class="infor">${requestScope.course.courseID}    |    ${requestScope.date}    |    Slot: ${requestScope.slot}</h3>
+                <h3 class="infor">${requestScope.session.group.course.courseID}    |    ${requestScope.session.date}    |    Slot: ${requestScope.session.slot.slotNo}</h3>
             </div>
 
             <form action="attendance" method="POST">

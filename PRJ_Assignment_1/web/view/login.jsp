@@ -12,6 +12,11 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form action="login" method="POST">
+            Gmail: <input name="gmail" type="text" value="${requestScope.gmail}"></input> <br>
+            Password: <input type="password" name="password"></input> <br/>
+            <input type="submit" value="Login"/>
+            <div style="color: red">${requestScope.message}</div>
+        </form>
     </body>
 </html>

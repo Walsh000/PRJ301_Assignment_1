@@ -19,6 +19,11 @@ public class Lecturer extends User {
     public Lecturer() {
     }
 
+    public Lecturer(String lecturerID) {
+        this.lecturerID = lecturerID;
+    }
+
+    
     public Lecturer(String LecturerID, User user) {
         super(user);
         this.lecturerID = LecturerID;

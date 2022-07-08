@@ -30,7 +30,35 @@ public class UserDBContext extends DBContext<User> {
 
     @Override
     public User get(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            String sql = "SELECT [UserID]\n"
+                    + "      ,[Gmail]\n"
+                    + "      ,[Password]\n"
+                    + "      ,[Username]\n"
+                    + "      ,[RoleID]\n"
+                    + "      ,[Gender]\n"
+                    + "      ,[DateOfBirth]\n"
+                    + "      ,[ImageURL]\n"
+                    + "  FROM [User]\n"
+                    + "  WHERE [Gmail] = ?\n";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, entity.getUserGmail());
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                User user = new User(result.getString("UserID"), 
+                        result.getString("Gmail"), 
+                        result.getString("Password"), 
+                        result.getString("Username"), 
+                        result.getBoolean("Gender"), 
+                        result.getDate("DateOfBirth"), 
+                        new Role(result.getInt("RoleID")));
+                user.setImageURL(result.getString("ImageURL"));
+                return user;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
@@ -62,19 +90,19 @@ public class UserDBContext extends DBContext<User> {
     public void update(User entity) {
         try {
             String sql = "UPDATE [dbo].[User]\n"
-//                    + "   SET [Gmail] = <Gmail, varchar(50),>\n"
-//                    + "      ,[Password] = <Password, varchar(50),>\n"
-//                    + "      ,[Username] = <Username, varchar(70),>\n"
-//                    + "      ,[RoleID] = <RoleID, int,>\n"
-//                    + "      ,[Gender] = <Gender, bit,>\n"
-//                    + "      ,[DateOfBirth] = <DateOfBirth, date,>\n"
+                    //                    + "   SET [Gmail] = <Gmail, varchar(50),>\n"
+                    //                    + "      ,[Password] = <Password, varchar(50),>\n"
+                    //                    + "      ,[Username] = <Username, varchar(70),>\n"
+                    //                    + "      ,[RoleID] = <RoleID, int,>\n"
+                    //                    + "      ,[Gender] = <Gender, bit,>\n"
+                    //                    + "      ,[DateOfBirth] = <DateOfBirth, date,>\n"
                     + "     SET [ImageURL] = ?\n"
                     + " WHERE UserID = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, entity.getImageURL());
             statement.setString(2, entity.getUserID());
             statement.executeUpdate();
-                
+
         } catch (SQLException ex) {
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -160,7 +188,6 @@ public class UserDBContext extends DBContext<User> {
 //        }
 //
 //    }
-    
 //    public void generateData() {
 //        for (int i = 0; i<500; i++) {
 //            String userID = String.format("1%012d", i+1);
@@ -169,6 +196,5 @@ public class UserDBContext extends DBContext<User> {
 //            s.setImageURL("../image/user_Avatar/" + userID + ".png");
 //            update(s);
 //        }
-        
 //    }
 }

@@ -103,6 +103,37 @@ public class SessionDBContext extends DBContext<Session> {
         return sessionList;
     }
 
+    public ArrayList<Session> listSessionOfLecturerByWeek(Lecturer lecturer, Date date) {
+            ArrayList<Session> sessionList = new ArrayList<>();
+        try {
+            String sql = "select SessionID, LecturerID, g.GroupID, [Date], SlotNo, RoomID "
+                    + "from [Session] s inner join [Group] g on s.GroupID = g.GroupID\n"
+                    + "where LecturerID = ?\n"
+                    + "and DATEPART(wk, [Date]) = DATEPART(wk, ?)\n"
+                    + "AND DATEPART(yy, [Date]) = DATEPART(yy, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, lecturer.getLecturerID());
+            statement.setDate(2, date);
+            statement.setDate(3, date);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while(resultSet.next()) {
+                Session session = new Session(resultSet.getString("SessionID"), 
+                        lecturer, 
+                        new Slot(resultSet.getInt("SlotNo")), 
+                        new Group(resultSet.getString("GroupID")), 
+                        resultSet.getDate("Date"), 
+                        new Room(resultSet.getString("RoomID")), null);
+                sessionList.add(session);
+            }
+            
+            return sessionList;
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     @Override
     public ArrayList<Session> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -164,11 +195,13 @@ public class SessionDBContext extends DBContext<Session> {
                 entity.setSessionID(resultSet.getString("SessionID"));
                 entity.setLecturer(new Lecturer(resultSet.getString("LecturerID"),
                         new User(resultSet.getString("UserID"), resultSet.getString("Username"))));
+//                entity.getLecturer().setImageURL(resultSet.getString("ImageURL"));
                 entity.getLecturer().setImageURL(resultSet.getString("ImageURL"));
                 entity.setGroup(new Group(resultSet.getString("GroupID"),
                         new Course(resultSet.getString("CourseID"),
                                 resultSet.getString("CourseName"))));
                 entity.setDate(resultSet.getDate("Date"));
+                entity.setSlot(new Slot(resultSet.getInt("SlotNo")));
 //                entity.setSlot(new Slot(resultSet.getInt("SlotNo")));
                 entity.setRoom(new Room(resultSet.getString("RoomID")));
                 return entity;
@@ -195,7 +228,7 @@ public class SessionDBContext extends DBContext<Session> {
     }
 
 //    public void generateData(String groupID, int slot, Date startDate, String roomID) {
-        //        Date currentDate = startDate;
+    //        Date currentDate = startDate;
 //        String sql = "INSERT INTO [Session] "
 //                + "(GroupID, "
 //                + "Date, "

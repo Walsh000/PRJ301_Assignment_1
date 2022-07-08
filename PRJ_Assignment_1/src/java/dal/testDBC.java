@@ -5,6 +5,7 @@
 package dal;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import object.Group;
 import object.Lecturer;
 import object.Session;
@@ -26,6 +27,9 @@ public class testDBC {
         CourseDBContext courseDBC = new CourseDBContext();
         SessionDBContext sessionDBC = new SessionDBContext();
         GroupDBContext groupDBC = new GroupDBContext();
+        
+        ArrayList<Session> sessionList = sessionDBC.listSessionOfLecturerByWeek(new Lecturer("LT000001"), Date.valueOf("2022-05-02"));
+        System.out.println(sessionList);
         
 //        sessionDBC.generateData();
 

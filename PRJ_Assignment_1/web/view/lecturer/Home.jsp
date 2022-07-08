@@ -12,6 +12,12 @@
         <title>JSP Page</title>
     </head>
     <body>
-        Home
+        <h1>Schedule table</h1>
+        
+        <table>
+            <tr>
+                
+            </tr>
+        </table>
     </body>
 </html>
