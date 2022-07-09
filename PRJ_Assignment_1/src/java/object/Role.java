@@ -44,4 +44,17 @@ public class Role {
         this.featureList = featureList;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Role) {
+            Role other = (Role) obj;
+            if (other.getRoleID() == this.getRoleID()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+
 }

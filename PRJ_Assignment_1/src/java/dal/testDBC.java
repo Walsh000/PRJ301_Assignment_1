@@ -6,8 +6,10 @@ package dal;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import object.Feature;
 import object.Group;
 import object.Lecturer;
+import object.Role;
 import object.Session;
 import object.Slot;
 import object.Student;
@@ -27,12 +29,16 @@ public class testDBC {
         CourseDBContext courseDBC = new CourseDBContext();
         SessionDBContext sessionDBC = new SessionDBContext();
         GroupDBContext groupDBC = new GroupDBContext();
-        
-        ArrayList<Session> sessionList = sessionDBC.listSessionOfLecturerByWeek(new Lecturer("LT000001"), Date.valueOf("2022-05-02"));
-        System.out.println(sessionList);
-        
-//        sessionDBC.generateData();
+        RoleDBContext roleDBC = new RoleDBContext();
 
+        ArrayList<Session> sessionList;
+//        sessionList = sessionDBC.listSessionOfLecturerByWeek(new Lecturer("LT000001"), Date.valueOf("2022-05-02"));
+        Feature feature = new Feature();
+        feature.setUrl("/lecturer/attendance");
+        ArrayList<Role> roleList = roleDBC.list(feature);
+        System.out.println(roleList);
+
+//        sessionDBC.generateData();
 //        sessionDBC.generateData("CEA201SU2201", 1, Date.valueOf("2022-05-02"), "AL301");
 //        sessionDBC.generateData("CEA201SU2201", 1, Date.valueOf("2022-05-04"), "AL301");
 //        sessionDBC.generateData("CEA201SU2201", 1, Date.valueOf("2022-05-06"), "AL301");
@@ -156,7 +162,6 @@ public class testDBC {
 //        sessionDBC.generateData("SWT301SU2201", 3, Date.valueOf("2022-05-03"), "AL304");
 //        sessionDBC.generateData("SWT301SU2201", 2, Date.valueOf("2022-05-05"), "AL304");
 //        sessionDBC.generateData("SWT301SU2201", 3, Date.valueOf("2022-05-05"), "AL304");
-        
 //        groupDBC.generateData();
 //        lecturerDBC.generateData();
 //        staffDBC.generateData();

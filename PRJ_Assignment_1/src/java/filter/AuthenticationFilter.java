@@ -75,8 +75,12 @@ public class AuthenticationFilter implements Filter {
             User user = (User) session.getAttribute("user");
             Feature feature = new Feature();
             feature.setUrl(req.getServletPath());
+            String serPath = req.getServletPath();
+            System.out.println(roleDBC.list(feature));
+            System.out.println(user.getUserRole());
+            System.out.println(roleDBC.list(feature).contains(user.getUserRole()));
 
-            if (roleDBC.list(feature).contains(user.getUserRole())) {
+            if (roleDBC.list(feature).contains(user.getUserRole()) || req.getServletPath().equals("/logout")) {
                 chain.doFilter(request, response);
             } else {
                 if (req.getRequestURI().equals(homeURI)) {

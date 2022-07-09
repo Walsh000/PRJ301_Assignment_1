@@ -69,7 +69,7 @@ public class ScheduleController extends HttpServlet {
         LecturerDBContext lecturerDBC = new LecturerDBContext();
         ArrayList<Session> sessionList;
 
-        Session[][] sessionTable = new Session[7][8];
+        Session[][] sessionTable = new Session[8][7];
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
 
@@ -98,10 +98,10 @@ public class ScheduleController extends HttpServlet {
             long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
             long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
-            sessionTable[(int) daysMinus][session.getSlot().getSlotNo()] = session;
+            sessionTable[session.getSlot().getSlotNo()-1][(int) daysMinus] = session;
         }
-
-        request.getRequestDispatcher("../view/lecturer/Home.jsp").forward(request, response);
+        request.getSession().setAttribute("schedule", sessionTable);
+        request.getRequestDispatcher("view/lecturer/Home.jsp").forward(request, response);
     }
 
     /**

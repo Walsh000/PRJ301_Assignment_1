@@ -4,3 +4,23 @@
 List   []                    []
   Ngày trong tuần       Session trong ngày
 
+//Nháp
+
+<% /
+        Session[][] sessionTable = (Session[][]) session.getAttribute("schedule");%>
+            <% for( int i = 0; i< 8; i++) { %>
+                <tr>
+                    <%= "<th> Slot " + (i+1) + "</th>" %>
+                    <% for(int j = 0; j < 7; j++) {%>
+                    <%if (request.getParameter)%>
+                        <td>
+                            ${requestScope.schedule[i][j]}
+                        </td>
+                    <c:if test="${requestScope.schedule[i][j] eq null}">
+                        <td>
+                            
+                        </td>
+                    </c:if>
+                    <% } %>
+                </tr>
+            <% } %>

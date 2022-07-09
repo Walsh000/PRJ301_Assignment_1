@@ -11,8 +11,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link href="../css/template.css" rel="stylesheet" type="text/css"/>
-        <script src="../js/pagger.js" type="text/javascript"></script>
         <link href="../css/AttendButton.css" rel="stylesheet" type="text/css"/>
+        <script src="../js/pagger.js" type="text/javascript"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
     <body>
