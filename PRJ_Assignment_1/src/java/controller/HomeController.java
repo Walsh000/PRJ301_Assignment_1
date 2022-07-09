@@ -28,11 +28,6 @@ public class HomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
-        if(user.getUserRole().getRoleID() == 2) {
-            request.getRequestDispatcher("lecturer/ScheduleController.java");
-        }
-        request.getRequestDispatcher("view/Home.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -46,7 +41,14 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        User user = (User) request.getSession().getAttribute("user");
+        if (user.getUserRole().getRoleID() == 0) {
+            request.getRequestDispatcher("view/admin/Home.jsp").forward(request, response);
+        }
+        if(user.getUserRole().getRoleID() == 2) {
+            request.getRequestDispatcher("lecturer/ScheduleController.java").forward(request, response);
+        }
+        //request.getRequestDispatcher("view/Home.jsp").forward(request, response);
     } 
 
     /** 

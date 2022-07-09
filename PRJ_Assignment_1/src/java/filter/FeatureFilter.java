@@ -5,6 +5,7 @@
 
 package filter;
 
+import dal.RoleDBContext;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -18,6 +19,8 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import object.Feature;
+import object.User;
 
 /**
  *
@@ -108,11 +111,15 @@ public class FeatureFilter implements Filter {
         
         String homeURI = req.getContextPath() + "/home";
         
-        if((session == null || session.getAttribute("user") == null) 
-                && !req.getRequestURI().equals(homeURI)) {
-            res.sendRedirect(homeURI);
-        } else {
+        RoleDBContext roleDBC = new RoleDBContext();
+        User user = (User) session.getAttribute("user");
+        Feature feature = new Feature();
+        feature.setUrl(req.getServletPath());
+        
+        if(roleDBC.list(feature).contains(user.getUserRole())) {
             chain.doFilter(request, response);
+        } else {
+            res.sendRedirect(homeURI);
         }
     }
     

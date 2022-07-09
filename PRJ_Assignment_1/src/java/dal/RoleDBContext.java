@@ -19,7 +19,7 @@ import object.Role;
  */
 public class RoleDBContext extends DBContext<Role> {
 
-    public ArrayList<Role> roleList(Feature feature) {
+    public ArrayList<Role> list(Feature feature) {
         ArrayList<Role> roleList = new ArrayList<>();
         try {
             String sql = "SELECT r.[RoleID]\n"

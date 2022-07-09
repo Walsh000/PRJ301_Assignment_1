@@ -13,8 +13,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 import object.Lecturer;
 import object.Session;
 import object.User;
@@ -66,33 +68,40 @@ public class ScheduleController extends HttpServlet {
         SessionDBContext sessionDBC = new SessionDBContext();
         LecturerDBContext lecturerDBC = new LecturerDBContext();
         ArrayList<Session> sessionList;
-        
+
         Session[][] sessionTable = new Session[7][8];
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
-        
-        calendar.setFirstDayOfWeek(2);
-        calendar.set(Calendar.DATE, Calendar.MONDAY);
-        Date mon = new Date(calendar.getTimeInMillis());
-        calendar.add(Calendar.DATE, 1);
-        Date tue = new Date(calendar.getTimeInMillis());
-        calendar.add(Calendar.DATE, 1);
-        Date wed = new Date(calendar.getTimeInMillis());
-        calendar.add(Calendar.DATE, 1);
-        Date thu = new Date(calendar.getTimeInMillis());
-        calendar.add(Calendar.DATE, 1);
-        Date fri = new Date(calendar.getTimeInMillis());
-        calendar.add(Calendar.DATE, 1);
-        Date sat = new Date(calendar.getTimeInMillis());
-        calendar.add(Calendar.DATE, 1);
-        Date sun = new Date(calendar.getTimeInMillis());
 
         User user = (User) request.getSession().getAttribute("user");
         Lecturer lecturer = lecturerDBC.get(user);
-        
-        sessionList = sessionDBC.listSessionOfLecturerByWeek(lecturer, 
-                        new Date(calendar.getTimeInMillis()));
-        request.getRequestDispatcher("view/Home.jsp").forward(request, response);
+        sessionList = sessionDBC.listSessionOfLecturerByWeek(lecturer,
+                new Date(calendar.getTimeInMillis()));
+
+        calendar.setFirstDayOfWeek(2);
+        calendar.set(Calendar.DATE, Calendar.MONDAY);
+        Date mon = new Date(calendar.getTimeInMillis());        //Monday
+//        calendar.add(Calendar.DATE, 1);
+//        Date tue = new Date(calendar.getTimeInMillis());        //Tuesday
+//        calendar.add(Calendar.DATE, 1);
+//        Date wed = new Date(calendar.getTimeInMillis());        //Wednesday
+//        calendar.add(Calendar.DATE, 1);
+//        Date thu = new Date(calendar.getTimeInMillis());        //Thusday
+//        calendar.add(Calendar.DATE, 1);
+//        Date fri = new Date(calendar.getTimeInMillis());        //Friday
+//        calendar.add(Calendar.DATE, 1);
+//        Date sat = new Date(calendar.getTimeInMillis());        //Satuday
+//        calendar.add(Calendar.DATE, 1);
+//        Date sun = new Date(calendar.getTimeInMillis());        //Sunday
+
+        for (Session session : sessionList) {
+            long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
+            long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
+
+            sessionTable[(int) daysMinus][session.getSlot().getSlotNo()] = session;
+        }
+
+        request.getRequestDispatcher("../view/lecturer/Home.jsp").forward(request, response);
     }
 
     /**
