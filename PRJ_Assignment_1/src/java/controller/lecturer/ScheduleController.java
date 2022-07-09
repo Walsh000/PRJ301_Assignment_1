@@ -81,24 +81,12 @@ public class ScheduleController extends HttpServlet {
         calendar.setFirstDayOfWeek(2);
         calendar.set(Calendar.DATE, Calendar.MONDAY);
         Date mon = new Date(calendar.getTimeInMillis());        //Monday
-//        calendar.add(Calendar.DATE, 1);
-//        Date tue = new Date(calendar.getTimeInMillis());        //Tuesday
-//        calendar.add(Calendar.DATE, 1);
-//        Date wed = new Date(calendar.getTimeInMillis());        //Wednesday
-//        calendar.add(Calendar.DATE, 1);
-//        Date thu = new Date(calendar.getTimeInMillis());        //Thusday
-//        calendar.add(Calendar.DATE, 1);
-//        Date fri = new Date(calendar.getTimeInMillis());        //Friday
-//        calendar.add(Calendar.DATE, 1);
-//        Date sat = new Date(calendar.getTimeInMillis());        //Satuday
-//        calendar.add(Calendar.DATE, 1);
-//        Date sun = new Date(calendar.getTimeInMillis());        //Sunday
 
         for (Session session : sessionList) {
             long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
             long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
-            sessionTable[session.getSlot().getSlotNo()-1][(int) daysMinus] = session;
+            sessionTable[session.getSlot().getSlotNo()-1][(int) daysMinus-1] = session;
         }
         request.getSession().setAttribute("schedule", sessionTable);
         request.getRequestDispatcher("view/lecturer/Home.jsp").forward(request, response);

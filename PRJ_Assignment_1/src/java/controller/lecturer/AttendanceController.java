@@ -55,11 +55,13 @@ public class AttendanceController extends HttpServlet {
         SessionDBContext sessionDBC = new SessionDBContext();
 //        StudentDBContext studentDBC = new StudentDBContext();
 
-        Session session = new Session();
-        session.setGroup(new Group(request.getParameter("groupID")));
-        session.setDate(Date.valueOf(request.getParameter("date")));
-        session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
-        session = sessionDBC.get(session);
+        Session session;
+        session = (Session) request.getAttribute("session");
+//        session = new Session();
+//        session.setGroup(new Group(request.getParameter("groupID")));
+//        session.setDate(Date.valueOf(request.getParameter("date")));
+//        session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
+//        session = sessionDBC.get(session);
 
         String rawIndex = request.getParameter("index");
         if (rawIndex == null || rawIndex.compareTo("1") < 0) {

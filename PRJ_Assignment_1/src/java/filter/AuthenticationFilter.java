@@ -82,6 +82,7 @@ public class AuthenticationFilter implements Filter {
 
             if (roleDBC.list(feature).contains(user.getUserRole())
                     || req.getServletPath().equals("/logout")
+                    || requestURI.indexOf("Filter") > 0
                     || requestURI.indexOf("/css") > 0
                     || requestURI.indexOf("/image") > 0
                     || requestURI.indexOf("/js") > 0) {
