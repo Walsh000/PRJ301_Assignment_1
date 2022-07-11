@@ -39,7 +39,7 @@
                     </tr>
                 </table>
                 <div class="dropdown-content">
-                    <a href="../logout">Logout</a>
+                    <a href="logout">Logout</a>
                 </div>
             </div>
         </header>

@@ -21,58 +21,30 @@ import object.User;
  * @author Khuat Thi Minh Anh
  */
 public class StudentDBContext extends DBContext<Student> {
-
-    public ArrayList<Group> list(Student student) {
+    
+    public ArrayList<Student> list(Group group) {
         try {
-            student.setGroupList(new ArrayList<>());
-            String sql = "select u.UserID, s.StudentID, Username, g.GroupID, g.CourseID, g.SemesterID\n"
+            String groupID = group.getGroupID();
+            group.setStudentList(new ArrayList<>());
+            String sql = "select u.UserID, s.StudentID, Username, g.GroupID\n"
                     + "from Student s \n"
                     + "inner join [User] u on s.userID = u.UserID \n"
                     + "inner join Enroll e on e.StudentID = s.StudentID\n"
                     + "inner join [Group] g on g.GroupID = e.GroupID\n"
-                    + "WHERE s.StudentID = ?";
+                    + "WHERE g.GroupID = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, student.getStudentID());
+            statement.setString(1, groupID);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Student std = new Student(resultSet.getString("StudentID"), resultSet.getString("UserID"));
                 std.setUsername(resultSet.getString("Username"));
-                student.getGroupList().add(new Group(resultSet.getString("GroupID"),
-                        new Course(resultSet.getString("CourseID")),
-                        new Semester(resultSet.getString("SemesterID"))));
+                group.getStudentList().add(std);
             }
         } catch (SQLException ex) {
             Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return student.getGroupList();
+        return group.getStudentList();
     }
-//
-//    public Student pagging(int index, String GroupID) {
-//        Student student = null;
-//        try {
-//            String sql = "SELECT distinct u.UserID, s.StudentID, Username, ImageURL \n"
-//                    + "FROM Student s \n"
-//                    + "inner join [User] u on s.UserID = u.UserID \n"
-//                    + "inner join Enroll e  on e.StudentID = s.StudentID\n"
-//                    + "inner join [Session] ss on ss.GroupID = e.GroupID\n"
-//                    + "WHERE ss.GroupID = ?\n"
-//                    + "ORDER BY UserID ASC \n"
-//                    + "OFFSET ? ROWS\n"
-//                    + "FETCH NEXT 1 ROWS ONLY";
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            statement.setString(1, GroupID);
-//            statement.setInt(2, index);
-//            ResultSet results = statement.executeQuery();
-//            if (results.next()) {
-//                student = new Student(new User(results.getString("UserID"),
-//                        results.getString("Username")), results.getString("StudentID"));
-//                student.setImageURL(results.getString("ImageURL"));
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return student;
-//    }
 
     @Override
     public ArrayList<Student> list() {

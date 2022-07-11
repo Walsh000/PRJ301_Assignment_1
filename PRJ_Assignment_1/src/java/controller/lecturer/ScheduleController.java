@@ -81,14 +81,36 @@ public class ScheduleController extends HttpServlet {
 
         calendar.setFirstDayOfWeek(2);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        ArrayList<Date> weekDate = new ArrayList<>();
+
         Date mon = new Date(calendar.getTimeInMillis());        //Monday
+        weekDate.add(mon);
+        calendar.add(Calendar.DATE, 1);
+        Date tue = new Date(calendar.getTimeInMillis());        //Tuesday
+        weekDate.add(tue);
+        calendar.add(Calendar.DATE, 1);
+        Date wed = new Date(calendar.getTimeInMillis());        //Wednesday
+        weekDate.add(wed);
+        calendar.add(Calendar.DATE, 1);
+        Date thu = new Date(calendar.getTimeInMillis());        //Thursday
+        weekDate.add(thu);
+        calendar.add(Calendar.DATE, 1);
+        Date fri = new Date(calendar.getTimeInMillis());        //Friday
+        weekDate.add(fri);
+        calendar.add(Calendar.DATE, 1);
+        Date sat = new Date(calendar.getTimeInMillis());        //Saturday
+        weekDate.add(sat);
+        calendar.add(Calendar.DATE, 1);
+        Date sun = new Date(calendar.getTimeInMillis());        //Sunday
+        weekDate.add(sun);
 
         for (Session session : sessionList) {
             long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
             long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
-            sessionTable[session.getSlot().getSlotNo()-1][(int) daysMinus-1] = session;
+            sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus - 1] = session;
         }
+        request.setAttribute("weekDate", weekDate);
         request.getSession().setAttribute("schedule", sessionTable);
         request.getRequestDispatcher("view/lecturer/Home.jsp").forward(request, response);
     }
@@ -121,14 +143,35 @@ public class ScheduleController extends HttpServlet {
 
         calendar.setFirstDayOfWeek(2);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        ArrayList<Date> weekDate = new ArrayList<>();
         Date mon = new Date(calendar.getTimeInMillis());        //Monday
+        weekDate.add(mon);
+        calendar.add(Calendar.DATE, 1);
+        Date tue = new Date(calendar.getTimeInMillis());        //Tuesday
+        weekDate.add(tue);
+        calendar.add(Calendar.DATE, 1);
+        Date wed = new Date(calendar.getTimeInMillis());        //Wednesday
+        weekDate.add(wed);
+        calendar.add(Calendar.DATE, 1);
+        Date thu = new Date(calendar.getTimeInMillis());        //Thursday
+        weekDate.add(thu);
+        calendar.add(Calendar.DATE, 1);
+        Date fri = new Date(calendar.getTimeInMillis());        //Friday
+        weekDate.add(fri);
+        calendar.add(Calendar.DATE, 1);
+        Date sat = new Date(calendar.getTimeInMillis());        //Saturday
+        weekDate.add(sat);
+        calendar.add(Calendar.DATE, 1);
+        Date sun = new Date(calendar.getTimeInMillis());        //Sunday
+        weekDate.add(sun);
 
         for (Session session : sessionList) {
             long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
             long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
-            sessionTable[session.getSlot().getSlotNo()-1][(int) daysMinus] = session;
+            sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
         }
+        request.setAttribute("weekDate", weekDate);
         request.getSession().setAttribute("date", date);
         request.getSession().setAttribute("schedule", sessionTable);
         request.getRequestDispatcher("view/lecturer/Home.jsp").forward(request, response);

@@ -5,17 +5,41 @@
 package dal;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import object.Attendance;
+import object.Session;
+import object.Student;
 
 /**
  *
  * @author Khuat Thi Minh Anh
  */
 public class AttendanceDBContext extends DBContext<Attendance> {
+
+    public boolean isAttend(Student student, Session session) {
+        try {
+            String sql = "SELECT [StudentID]\n"
+                    + "      ,[SessionID]\n"
+                    + "      ,[Attendance]\n"
+                    + "  FROM [Attendance]\n"
+                    + "  WHERE [StudentID]=?\n"
+                    + "  AND SessionID=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, student.getStudentID());
+            statement.setString(2, session.getSessionID());
+            ResultSet result = statement.executeQuery();
+            if(result.next()) {
+                return result.getBoolean("Attendance");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     @Override
     public ArrayList<Attendance> list() {

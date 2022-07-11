@@ -1,11 +1,26 @@
-
-table.schedule {
+.schedule {
+    margin-top:0;
+    width: 70%;
+    text-align: center;
+    display: block;
+    margin: auto;
+    margin-top:20px;
+}
+.schedule table {
+    /*width: 100%;*/
+    /*background-color: #000;*/
+    display: block;
+    margin: auto;
+    border-radius: 13px;
+    
+}
+/*table.schedule {
     display: inline-block;
     margin: auto;
     margin-top: 20px;
     border-radius: 13px;
     width: 80%;
-}
+}*/
 
 .schedule th {
     background: #ffcc99;
@@ -20,25 +35,21 @@ table.schedule {
     border-top-left-radius: 10px;
 }
 
-.schedule th:last-child {
+.schedule #tableHead th:last-child {
     border-top-right-radius: 10px;
 }
 
-.schedule .tb {
+.schedule td {
     background-color: #ffff88;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+/*    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;*/
 }
 
-.schedule .tb:last-child>td:first-child {
+.schedule .tb:last-child > th {
     border-bottom-left-radius: 10px;
 }
-.schedule .tb:last-child>td:last-child {
+.schedule .tb:last-child > td:last-child {
     border-bottom-right-radius: 10px;
-}
-
-.schedule tbody {
-    padding: 2px
 }
 
 h1 {
@@ -47,21 +58,4 @@ h1 {
 
 form {
     text-align: center;
-}
-.schedule {
-    text-align: center;
-    padding: 5px;
-    /*align-content: center;*/
-    display: inline-block;
-    /*margin: auto;*/
-    margin-top:20px;
-    box-shadow: 3px 3px 3px 3px rgba(150, 150, 150, 0.8);
-    margin: auto;
-}
-
-.schedule table {
-    /*width: 100%;*/
-    display: block;
-    margin: auto;
-    
 }

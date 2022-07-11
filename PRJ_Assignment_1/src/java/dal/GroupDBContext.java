@@ -20,29 +20,30 @@ import object.Student;
  * @author Khuat Thi Minh Anh
  */
 public class GroupDBContext extends DBContext<Group> {
-
-    public ArrayList<Student> list(Group group) {
+    
+    public ArrayList<Group> list(Student student) {
         try {
-            String groupID = group.getGroupID();
-            group.setStudentList(new ArrayList<>());
-            String sql = "select u.UserID, s.StudentID, Username, g.GroupID\n"
+            student.setGroupList(new ArrayList<>());
+            String sql = "select u.UserID, s.StudentID, Username, g.GroupID, g.CourseID, g.SemesterID\n"
                     + "from Student s \n"
                     + "inner join [User] u on s.userID = u.UserID \n"
                     + "inner join Enroll e on e.StudentID = s.StudentID\n"
                     + "inner join [Group] g on g.GroupID = e.GroupID\n"
-                    + "WHERE g.GroupID = ?";
+                    + "WHERE s.StudentID = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, groupID);
+            statement.setString(1, student.getStudentID());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Student std = new Student(resultSet.getString("StudentID"), resultSet.getString("UserID"));
                 std.setUsername(resultSet.getString("Username"));
-                group.getStudentList().add(std);
+                student.getGroupList().add(new Group(resultSet.getString("GroupID"),
+                        new Course(resultSet.getString("CourseID")),
+                        new Semester(resultSet.getString("SemesterID"))));
             }
         } catch (SQLException ex) {
             Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return group.getStudentList();
+        return student.getGroupList();
     }
 
     @Override

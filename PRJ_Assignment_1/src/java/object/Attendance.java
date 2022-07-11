@@ -17,6 +17,10 @@ public class Attendance {
     public Attendance() {
     }
 
+    public Attendance(Student student) {
+        this.student = student;
+    }
+
     public Attendance(Session session, Student student, boolean isAttend) {
         this.session = session;
         this.student = student;

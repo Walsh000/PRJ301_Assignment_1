@@ -39,27 +39,27 @@
                     </tr>
                 </table>
                 <div class="dropdown-content">
-                    <a href="../logout">Logout</a>
+                    <a href="logout">Logout</a>
                 </div>
             </div>
         </header>
         <h1>Schedule table</h1>
         <form action="schedule" method="post" style="margin-bottom: 10px">
-            <input type="date" name="date" value="${requestScope.date}"></input>
+            <input type="date" name="date" value="${sessionScope.date}"></input>
             <button type="submit"><i class="fa fa-search"></i></button>
         </form>
 
         <div class="schedule">
-            <table>
+            <table >
                 <tr id="tableHead">
                     <th></th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
+                    <th>Monday <br/>${requestScope.weekDate.get(0)}</th>
+                    <th>Tuesday <br/>${requestScope.weekDate.get(1)}</th>
+                    <th>Wednesday <br/>${requestScope.weekDate.get(2)}</th>
+                    <th>Thursday <br/>${requestScope.weekDate.get(3)}</th>
+                    <th>Friday <br/>${requestScope.weekDate.get(4)}</th>
+                    <th>Saturday <br/>${requestScope.weekDate.get(5)}</th>
+                    <th>Sunday <br/>${requestScope.weekDate.get(6)}</th>
                 </tr>
 
                 <%int i = 1;%>
