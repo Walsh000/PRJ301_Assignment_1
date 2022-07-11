@@ -4,27 +4,28 @@
     Author     : fpt
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <link href="../css/template.css" rel="stylesheet" type="text/css"/>
-        <link href="../css/AttendButton.css" rel="stylesheet" type="text/css"/>
-        <script src="../js/pagger.js" type="text/javascript"></script>
+        <title>Check attendance</title>
+        <link href="css/template.css" rel="stylesheet" type="text/css"/>
+        <link href="css/AttendButton.css" rel="stylesheet" type="text/css"/>
+        <!--<script src="../js/pagger.js" type="text/javascript"></script>-->
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
     <body>
         <header>
-            <img class ="navi" src="../image/template/Detail05_1.png" alt=""/>
-            <img class="headerText" src="../image/template/Detail03.png" alt=""/>
+            <img class ="navi" src="images/template/Detail05.png" alt=""/>
+            <a href="home"><img class="headerText" src="images/template/Detail03.png" alt=""/></a>
             <div class="dropdown">
                 <table class="headerUser dropbtn">
                     <tr>
                         <td>
-                            <img class="lecturerImage" src="../${sessionScope.lecturer.imageURL}" alt=""/> 
+                            <img class="lecturerImage" src="${sessionScope.lecturer.imageURL}" alt=""/> 
                         </td>
 
                         <td>
@@ -51,11 +52,11 @@
             </div>
 
             <form action="attendance" method="POST">
-                <table class="stdInfor">
+                <table class="studentInfor">
 
                     <tr style="height: 30px">
                         <td rowspan="4">
-                            <img class ="avatar" src="../${requestScope.student.imageURL}" alt=""/>
+                            <img class ="studentImage check" src="${requestScope.student.imageURL}" alt=""/>
                             <!--<img class ="avatar" src="../image/user_Avatar/1000000000001.png" alt=""/>-->
                         </td>
 
@@ -74,14 +75,20 @@
                     <tr>
                         <td style="padding-top: 0px; height: 110px; ">
                             <div class="flip-switch flip-switch-text">
-                                <input type="checkbox" id="c3" name="isAttend" unchecked/>
+                                <input type="checkbox" id="c3" name="isAttend" 
+                                       <c:if test="${attendance.isAttend}">
+                                           checked
+                                       </c:if>
+                                       <c:if test="!${attendance.isAttend}">
+                                           unchecked
+                                       </c:if>/>
                                 <label for="c3"></label>
                             </div>
 
                             <input type="hidden" name="index" value="${requestScope.index}"/>
-                            <input type="hidden" name="date" value="${requestScope.date}"/>
+                            <input type="hidden" name="date" value="${requestScope.session.date}"/>
                             <input type="hidden" name="groupID" value="${requestScope.session.group.groupID}"/>
-                            <input type="hidden" name="slotNo" value="${requestScope.slot}"/>
+                            <input type="hidden" name="slotNo" value="${requestScope.session.slot.slotNo}"/>
                         </td>
                     </tr>
 
@@ -90,10 +97,9 @@
                     </tr>
                 </table>
             </form>
-        </script>-->
-    </div>
-    <footer>
-        <img class="foot" src="../image/template/Detail1_1.png" alt=""/>
-    </footer>
-</body>
+        </div>
+        <footer>
+            <img class="foot" src="images/template/Detail01.png" alt=""/>
+        </footer>
+    </body>
 </html>

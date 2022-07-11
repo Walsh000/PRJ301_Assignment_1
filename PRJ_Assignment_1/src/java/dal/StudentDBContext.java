@@ -26,7 +26,7 @@ public class StudentDBContext extends DBContext<Student> {
         try {
             String groupID = group.getGroupID();
             group.setStudentList(new ArrayList<>());
-            String sql = "select u.UserID, s.StudentID, Username, g.GroupID\n"
+            String sql = "select u.UserID, s.StudentID, Username, g.GroupID, u.imageURL\n"
                     + "from Student s \n"
                     + "inner join [User] u on s.userID = u.UserID \n"
                     + "inner join Enroll e on e.StudentID = s.StudentID\n"
@@ -38,6 +38,7 @@ public class StudentDBContext extends DBContext<Student> {
             while (resultSet.next()) {
                 Student std = new Student(resultSet.getString("StudentID"), resultSet.getString("UserID"));
                 std.setUsername(resultSet.getString("Username"));
+                std.setImageURL(resultSet.getString("imageURL"));
                 group.getStudentList().add(std);
             }
         } catch (SQLException ex) {

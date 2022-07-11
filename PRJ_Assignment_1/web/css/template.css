@@ -26,7 +26,13 @@ header {
     margin: auto;
 }
 
-.avatar {
+.studentImage.edit {
+    width: 100px;
+    display: block;
+    margin: auto;
+}
+
+.studentImage.check {
     width: 250px;
     display: block;
 }
@@ -36,13 +42,6 @@ header {
     right: 150px;*/
     width: 40px;
 }
-
-/*.headerLect {
-    height: 60px;
-    position: absolute;
-    right: 50px;
-    top:0px;
-}*/
 
 .headerUser table {
     height: 60px;
@@ -71,15 +70,28 @@ header {
 }
 
 .container {
+    width: 80%;
     display: block;
     margin: auto;
 }
 
-.stdInfor {
+.studentInfor {
     display: block;
     margin: auto;
     width: 700px;
     font-size: 30px;
+    color: #000;
+    text-align: center;
+}
+
+.student {
+    display: inline-block;
+    background-color: #3380BB;
+    box-shadow: 3px 3px 3px 3px rgba(150, 150, 150, 0.7);
+    width: 210px;
+    margin: 20px 3%;
+    padding: 10px;
+    height: 225px
 }
 
 input.submit{
@@ -125,7 +137,9 @@ input.submit{
 
 table.headerUser.dropbtn {
     height: 60px;
-    width: 170px;background-color: transparent; border: 0
+    width: 170px;
+    background-color: transparent; 
+    border: 0
 }
 
 /* Dropdown button */

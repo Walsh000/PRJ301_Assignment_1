@@ -56,12 +56,12 @@ public class AttendanceController extends HttpServlet {
 //        StudentDBContext studentDBC = new StudentDBContext();
 
         Session session;
-        session = (Session) request.getAttribute("session");
-//        session = new Session();
-//        session.setGroup(new Group(request.getParameter("groupID")));
-//        session.setDate(Date.valueOf(request.getParameter("date")));
-//        session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
-//        session = sessionDBC.get(session);
+//        session = (Session) request.getAttribute("session");
+        session = new Session();
+        session.setGroup(new Group(request.getParameter("groupID")));
+        session.setDate(Date.valueOf(request.getParameter("date")));
+        session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
+        session = sessionDBC.get(session);
 
         String rawIndex = request.getParameter("index");
         if (rawIndex == null || rawIndex.compareTo("1") < 0) {
@@ -70,14 +70,13 @@ public class AttendanceController extends HttpServlet {
         int index = Integer.parseInt(rawIndex);
         Student student = sessionDBC.listStudent(session).get(index);
 
-//        request.setAttribute("lecturer", session.getLecturer());
         request.setAttribute("student", student);
         request.setAttribute("index", index);
-        request.setAttribute("course", session.getGroup().getCourse());
-        request.setAttribute("date", session.getDate());
-        request.setAttribute("slot", session.getSlot().getSlotNo());
+//        request.setAttribute("course", session.getGroup().getCourse());
+//        request.setAttribute("date", session.getDate());
+//        request.setAttribute("slot", session.getSlot().getSlotNo());
         request.setAttribute("session", session);
-        request.getRequestDispatcher("../view/lecturer/attendance.jsp").forward(request, response);
+        request.getRequestDispatcher("view/lecturer/attendance.jsp").forward(request, response);
     }
 
     /**
@@ -115,18 +114,18 @@ public class AttendanceController extends HttpServlet {
 //        Student student = studentDBC.pagging(index, session.getGroup().getGroupID());
         index++;
         if (index == studentList.size()) {
-            request.getRequestDispatcher("../view/lecturer/Home.jsp").forward(request, response);
+            response.sendRedirect(getServletContext() + "/home");
         } else {
             student = studentList.get(index);
 
 //            request.setAttribute("lecturer", session.getLecturer());
             request.setAttribute("student", student);
             request.setAttribute("index", index);
-            request.setAttribute("course", session.getGroup().getCourse());
-            request.setAttribute("date", session.getDate());
-            request.setAttribute("slot", session.getSlot().getSlotNo());
+//            request.setAttribute("course", session.getGroup().getCourse());
+//            request.setAttribute("date", session.getDate());
+//            request.setAttribute("slot", session.getSlot().getSlotNo());
             request.setAttribute("session", session);
-            request.getRequestDispatcher("../view/lecturer/attendance.jsp").forward(request, response);
+            request.getRequestDispatcher("view/lecturer/attendance.jsp").forward(request, response);
         }
 
     }

@@ -36,7 +36,12 @@ public class testDBC {
 //        Feature feature = new Feature();
 //        feature.setUrl("/lecturer/attendance");
 //        ArrayList<Role> roleList = roleDBC.list(feature);
-//        System.out.println(sessionList);
+//        System.out.println(roleList.get(0));
+
+                Feature feature = new Feature();
+                feature.setUrl("/attendance");
+                System.out.println(feature.getUrl());
+                System.out.println(roleDBC.list(feature).size());
 
 //        sessionDBC.generateData();
 //        sessionDBC.generateData("CEA201SU2201", 1, Date.valueOf("2022-05-02"), "AL301");

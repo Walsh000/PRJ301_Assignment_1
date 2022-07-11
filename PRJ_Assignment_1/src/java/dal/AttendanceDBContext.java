@@ -19,6 +19,19 @@ import object.Student;
  * @author Khuat Thi Minh Anh
  */
 public class AttendanceDBContext extends DBContext<Attendance> {
+    
+    public void clear(Session session) {
+        try {
+            String sql = "UPDATE [Attendance]\n"
+                    + "   SET [Attendance] = 0\n"
+                    + " WHERE [SessionID] = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, session.getSessionID());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public boolean isAttend(Student student, Session session) {
         try {

@@ -18,8 +18,8 @@
     </head>
     <body>
         <header>
-            <img class ="navi" src="images/template/Detail05_1.png" alt=""/>
-            <img class="headerText" src="images/template/Detail03.png" alt=""/>
+            <img class ="navi" src="images/template/Detail05.png" alt=""/>
+            <a href="home"><img class="headerText" src="images/template/Detail03.png" alt=""/></a>
             <div class="dropdown">
                 <table class="headerUser dropbtn">
                     <tr>
@@ -74,7 +74,7 @@
                             </c:if>
                             <c:if test="${session ne null}">
                                 <td style="text-align: center">
-                                    <a href="lecturer/attendance?groupID=${session.group.groupID}&date=${session.date}&slotNo=${session.slot.slotNo}">
+                                    <a href="attendance?groupID=${session.group.groupID}&date=${session.date}&slotNo=${session.slot.slotNo}">
                                         <span style="color: #000">${session.group.groupID}</span>
                                         <span style="color: #06f">${session.room.roomID}</span>
                                     </a>
@@ -87,5 +87,8 @@
             </table>
 
         </div>
+        <footer>
+            <img class="foot" src="images/template/Detail01.png" alt=""/>
+        </footer>
     </body>
 </html>
