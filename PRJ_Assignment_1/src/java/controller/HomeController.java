@@ -4,12 +4,14 @@
  */
 package controller;
 
+import dal.LecturerDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import object.Lecturer;
 import object.User;
 
 /**
@@ -29,6 +31,19 @@ public class HomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user.getUserRole().getRoleID() == 0) {
+            request.getRequestDispatcher("view/admin/Home.jsp").forward(request, response);
+        } else if (user.getUserRole().getRoleID() == 1) {
+            request.getRequestDispatcher("view/staff/Home.jsp").forward(request, response);
+        } else if (user.getUserRole().getRoleID() == 2) {
+            LecturerDBContext lecturerDBC = new LecturerDBContext();
+            Lecturer lecturer = lecturerDBC.get(user);
+            request.getSession().setAttribute("lecturer", lecturer);
+            request.getRequestDispatcher("/schedule").forward(request, response);
+        } else {
+            request.getRequestDispatcher("view/student/Home.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -43,16 +58,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user.getUserRole().getRoleID() == 0) {
-            request.getRequestDispatcher("view/admin/Home.jsp").forward(request, response);
-        } else if (user.getUserRole().getRoleID() == 1) {
-            request.getRequestDispatcher("view/staff/Home.jsp").forward(request, response);
-        } else if (user.getUserRole().getRoleID() == 2) {
-            request.getRequestDispatcher("/schedule").forward(request, response);
-        } else {
-            request.getRequestDispatcher("view/student/Home.jsp").forward(request, response);
-        }
+        processRequest(request, response);
         //request.getRequestDispatcher("view/Home.jsp").forward(request, response);
     }
 

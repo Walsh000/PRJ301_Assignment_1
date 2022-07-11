@@ -70,7 +70,7 @@ public class AttendanceController extends HttpServlet {
         int index = Integer.parseInt(rawIndex);
         Student student = sessionDBC.listStudent(session).get(index);
 
-        request.setAttribute("lecturer", session.getLecturer());
+//        request.setAttribute("lecturer", session.getLecturer());
         request.setAttribute("student", student);
         request.setAttribute("index", index);
         request.setAttribute("course", session.getGroup().getCourse());
@@ -119,7 +119,7 @@ public class AttendanceController extends HttpServlet {
         } else {
             student = studentList.get(index);
 
-            request.setAttribute("lecturer", session.getLecturer());
+//            request.setAttribute("lecturer", session.getLecturer());
             request.setAttribute("student", student);
             request.setAttribute("index", index);
             request.setAttribute("course", session.getGroup().getCourse());

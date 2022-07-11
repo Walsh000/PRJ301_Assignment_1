@@ -193,7 +193,7 @@ public class UserDBContext extends DBContext<User> {
 //            String userID = String.format("1%012d", i+1);
 //            Student s = new Student();
 //            s.setUserID(userID);
-//            s.setImageURL("../image/user_Avatar/" + userID + ".png");
+//            s.setImageURL("images/user_Avatar/" + userID + ".png");
 //            update(s);
 //        }
 //    }

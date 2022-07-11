@@ -36,19 +36,11 @@ public class User {
         this.gender = user.isGender();
         this.dateOfBirth = user.getDateOfBirth();
         this.userRole = user.getUserRole();
+        this.imageURL = user.getImageURL();
     }
 
     public User(String userID, String userGmail, String userPassword, String username, boolean gender, Date dateOfBirth, Role userRole) {
         this.userID = userID;
-        this.userGmail = userGmail;
-        this.userPassword = userPassword;
-        this.username = username;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.userRole = userRole;
-    }
-
-    public User(String userGmail, String userPassword, String username, boolean gender, Date dateOfBirth, Role userRole) {
         this.userGmail = userGmail;
         this.userPassword = userPassword;
         this.username = username;

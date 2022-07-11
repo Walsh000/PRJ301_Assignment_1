@@ -1,0 +1,67 @@
+
+table.schedule {
+    display: inline-block;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 13px;
+    width: 80%;
+}
+
+.schedule th {
+    background: #ffcc99;
+    padding: 3px 0px;
+}
+
+.schedule td {
+    padding: 5px 5px;
+    width: 125px
+}
+.schedule #tableHead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.schedule th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.schedule .tb {
+    background-color: #ffff88;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.schedule .tb:last-child>td:first-child {
+    border-bottom-left-radius: 10px;
+}
+.schedule .tb:last-child>td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+.schedule tbody {
+    padding: 2px
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    text-align: center;
+}
+.schedule {
+    text-align: center;
+    padding: 5px;
+    /*align-content: center;*/
+    display: inline-block;
+    /*margin: auto;*/
+    margin-top:20px;
+    box-shadow: 3px 3px 3px 3px rgba(150, 150, 150, 0.8);
+    margin: auto;
+}
+
+.schedule table {
+    /*width: 100%;*/
+    display: block;
+    margin: auto;
+    
+}

@@ -13,43 +13,79 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/template.css" rel="stylesheet" type="text/css"/>
-        <link href="css/table.css" rel="stylesheet" type="text/css"/>
+        <link href="css/schedule.css" rel="stylesheet" type="text/css"/>
         <title>Assignment homepage</title>
     </head>
     <body>
+        <header>
+            <img class ="navi" src="images/template/Detail05_1.png" alt=""/>
+            <img class="headerText" src="images/template/Detail03.png" alt=""/>
+            <div class="dropdown">
+                <table class="headerUser dropbtn">
+                    <tr>
+                        <td>
+                            <img class="lecturerImage" src="${sessionScope.lecturer.imageURL}" alt=""/> 
+                        </td>
+
+                        <td>
+                            <span>${sessionScope.lecturer.username}
+                            </span>
+                            <span>${sessionScope.lecturer.lecturerID}</span>
+                        </td>
+
+                        <td>
+                            <i class="fa fa-caret-down" style="color: #fff"></i>
+                        </td>
+                    </tr>
+                </table>
+                <div class="dropdown-content">
+                    <a href="../logout">Logout</a>
+                </div>
+            </div>
+        </header>
         <h1>Schedule table</h1>
+        <form action="schedule" method="post" style="margin-bottom: 10px">
+            <input type="date" name="date" value="${requestScope.date}"></input>
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
 
-        <table>
-            <tr id=tableHead">
-                <th></th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-                <th>Sunday</th>
-            </tr>
-
-            <c:forEach items="${sessionScope.schedule}" var="slot">
-                <tr class="tb">
-                    <th>
-                        Slot
-                    </th>
-                    <c:forEach items="${slot}" var="session">
-                        <c:if test="${session eq null}">
-                            <td></td>
-                        </c:if>
-                        <c:if test="${session ne null}">
-                            <td>
-                                ${session.group.groupID}<br>
-                                ${session.room.roomID}
-                            </td>
-                        </c:if>
-                    </c:forEach>
+        <div class="schedule">
+            <table>
+                <tr id="tableHead">
+                    <th></th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
                 </tr>
-            </c:forEach>
 
-        </table>
+                <%int i = 1;%>
+                <c:forEach items="${sessionScope.schedule}" var="slot">
+                    <tr class="tb">
+                        <th>
+                            <%="<span style=\"color: #000; padding: 0px 10px\">Slot " + i++ + "</span>"%>
+                        </th>
+                        <c:forEach items="${slot}" var="session">
+                            <c:if test="${session eq null}">
+                                <td></td>
+                            </c:if>
+                            <c:if test="${session ne null}">
+                                <td style="text-align: center">
+                                    <a href="lecturer/attendance?groupID=${session.group.groupID}&date=${session.date}&slotNo=${session.slot.slotNo}">
+                                        <span style="color: #000">${session.group.groupID}</span>
+                                        <span style="color: #06f">${session.room.roomID}</span>
+                                    </a>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                </c:forEach>
+
+            </table>
+
+        </div>
     </body>
 </html>

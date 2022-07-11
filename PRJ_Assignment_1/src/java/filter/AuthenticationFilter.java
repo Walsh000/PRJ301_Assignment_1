@@ -61,43 +61,40 @@ public class AuthenticationFilter implements Filter {
         String loginURI = req.getContextPath() + "/login";
         String requestURI = req.getRequestURI();
 
-        if (session == null || session.getAttribute("user") == null) {
-            if (!req.getRequestURI().equals(loginURI)) {
-                res.sendRedirect(loginURI);
-            } else {
-                chain.doFilter(request, response);
-
-            }
+        if (requestURI.indexOf("/css") > 0
+                || requestURI.indexOf("/image") > 0
+                || requestURI.indexOf("/js") > 0
+                || requestURI.indexOf("Filter") > 0) {
+            chain.doFilter(request, response);
         } else {
-            String homeURI = req.getContextPath() + "/home";
-
-            RoleDBContext roleDBC = new RoleDBContext();
-            User user = (User) session.getAttribute("user");
-            Feature feature = new Feature();
-            feature.setUrl(req.getServletPath());
-//            String serPath = req.getServletPath();
-//            System.out.println(roleDBC.list(feature));
-//            System.out.println(user.getUserRole());
-//            System.out.println(roleDBC.list(feature).contains(user.getUserRole()));
-
-            if (roleDBC.list(feature).contains(user.getUserRole())
-                    || req.getServletPath().equals("/logout")
-                    || requestURI.indexOf("Filter") > 0
-                    || requestURI.indexOf("/css") > 0
-                    || requestURI.indexOf("/image") > 0
-                    || requestURI.indexOf("/js") > 0) {
-                chain.doFilter(request, response);
+            if (session == null || session.getAttribute("user") == null) {
+                if (!req.getRequestURI().equals(loginURI)) {
+                    res.sendRedirect(loginURI);
+                } else {
+                    chain.doFilter(request, response);
+                }
             } else {
-                if (req.getRequestURI().equals(homeURI)) {
+                String homeURI = req.getContextPath() + "/home";
+
+                RoleDBContext roleDBC = new RoleDBContext();
+                User user = (User) session.getAttribute("user");
+                Feature feature = new Feature();
+                feature.setUrl(req.getServletPath());
+
+                if (roleDBC.list(feature).contains(user.getUserRole())
+                        || req.getServletPath().equals("/logout")) {
                     chain.doFilter(request, response);
                 } else {
-                    res.sendRedirect(homeURI);
+                    if (req.getRequestURI().equals(homeURI)) {
+                        chain.doFilter(request, response);
+                    } else {
+                        res.sendRedirect(homeURI);
+                    }
                 }
+
             }
-
-        }
 //            chain.doFilter(request, response);
-
+        }
     }
 
     /**

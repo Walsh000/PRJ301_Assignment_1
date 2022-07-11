@@ -44,12 +44,12 @@ header {
     top:0px;
 }*/
 
-table {
+.headerUser table {
     height: 60px;
     width: 170px;
 }
 
-.headerLect span {
+ span {
     display: block;
     color: #fff;
     text-align: center;
@@ -123,6 +123,11 @@ input.submit{
     top: 0px;
 }
 
+table.headerUser.dropbtn {
+    height: 60px;
+    width: 170px;background-color: transparent; border: 0
+}
+
 /* Dropdown button */
 .dropdown .dropbtn {
 /*  font-size: 16px;
@@ -168,4 +173,8 @@ input.submit{
 /* Show the dropdown menu on hover */
 .dropdown:hover>.dropdown-content {
   display: block;
+}
+
+a {
+    text-decoration: none;
 }

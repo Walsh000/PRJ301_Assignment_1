@@ -24,40 +24,48 @@ import object.User;
 public class testCon {
 
     public static void main(String[] args) {
-        ArrayList<Session> sessionList;
-        SessionDBContext sessionDBC = new SessionDBContext();
-        LecturerDBContext lecturerDBC = new LecturerDBContext();
+        try {
+            SessionDBContext sessionDBC = new SessionDBContext();
+            LecturerDBContext lecturerDBC = new LecturerDBContext();
+            ArrayList<Session> sessionList;
 
-        Session[][] sessionTable = new Session[8][7];
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
+            Date date = Date.valueOf("2022-05-12");
+            Session[][] sessionTable = new Session[8][7];
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
 
-        User user = new User("1000000000011", "");
-        Lecturer lecturer = lecturerDBC.get(user);
-        sessionList = sessionDBC.listSessionOfLecturerByWeek(lecturer,
-                new Date(calendar.getTimeInMillis()));
+                        User user = new User("1000000000011", "");
 
-        calendar.setFirstDayOfWeek(2);
-        calendar.set(Calendar.DATE, Calendar.MONDAY);
-        Date mon = new Date(calendar.getTimeInMillis());        //Monday
+            Lecturer lecturer = lecturerDBC.get(user);
+            sessionList = sessionDBC.listSessionOfLecturerByWeek(lecturer,
+                    new Date(calendar.getTimeInMillis()));
 
-        for (Session session : sessionList) {
-            long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
-            long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
+            calendar.setFirstDayOfWeek(2);
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            Date mon = new Date(calendar.getTimeInMillis());        //Monday
 
-            sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
-        }
+            for (Session session : sessionList) {
+                long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
+                long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
-        for (int i = 0; i < 8; i++) {
-            System.out.print("Slot " + (i+1) + "   ");
-            for (int j = 0; j < 7; j++) {
-                if (sessionTable[i][j] == null) {
-                    System.out.print("      ");
-                } else {
-                    System.out.printf("%6s", sessionTable[i][j].getSessionID());
-                }
+                sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
             }
-            System.out.println("");
+
+            for (int i = 0; i < 8; i++) {
+                System.out.print("Slot " + (i + 1) + "   ");
+                for (int j = 0; j < 7; j++) {
+                    if (sessionTable[i][j] == null) {
+                        System.out.print("      ");
+                    } else {
+                        System.out.printf("%6s", sessionTable[i][j].getSessionID());
+                    }
+                }
+                System.out.println("");
+            }
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 }

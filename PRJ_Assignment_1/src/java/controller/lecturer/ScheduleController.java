@@ -72,6 +72,7 @@ public class ScheduleController extends HttpServlet {
         Session[][] sessionTable = new Session[8][7];
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
+        request.getSession().setAttribute("date", new Date(calendar.getTimeInMillis()));
 
         User user = (User) request.getSession().getAttribute("user");
         Lecturer lecturer = lecturerDBC.get(user);
@@ -79,7 +80,7 @@ public class ScheduleController extends HttpServlet {
                 new Date(calendar.getTimeInMillis()));
 
         calendar.setFirstDayOfWeek(2);
-        calendar.set(Calendar.DATE, Calendar.MONDAY);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Date mon = new Date(calendar.getTimeInMillis());        //Monday
 
         for (Session session : sessionList) {
@@ -103,6 +104,34 @@ public class ScheduleController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        SessionDBContext sessionDBC = new SessionDBContext();
+        LecturerDBContext lecturerDBC = new LecturerDBContext();
+        ArrayList<Session> sessionList;
+
+        Date date = Date.valueOf(request.getParameter("date"));
+        Session[][] sessionTable = new Session[8][7];
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+
+        User user = (User) request.getSession().getAttribute("user");
+        Lecturer lecturer = lecturerDBC.get(user);
+        sessionList = sessionDBC.listSessionOfLecturerByWeek(lecturer,
+                new Date(calendar.getTimeInMillis()));
+
+        calendar.setFirstDayOfWeek(2);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        Date mon = new Date(calendar.getTimeInMillis());        //Monday
+
+        for (Session session : sessionList) {
+            long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
+            long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
+
+            sessionTable[session.getSlot().getSlotNo()-1][(int) daysMinus] = session;
+        }
+        request.getSession().setAttribute("date", date);
+        request.getSession().setAttribute("schedule", sessionTable);
+        request.getRequestDispatcher("view/lecturer/Home.jsp").forward(request, response);
         String choosenDate = request.getParameter("date");
     }
 

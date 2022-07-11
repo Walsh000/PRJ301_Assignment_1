@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page session="true" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,16 +21,16 @@
             <img class ="navi" src="../image/template/Detail05_1.png" alt=""/>
             <img class="headerText" src="../image/template/Detail03.png" alt=""/>
             <div class="dropdown">
-                <table class="headerLect dropbtn">
+                <table class="headerUser dropbtn">
                     <tr>
                         <td>
-                            <img class="lecturerImage" src="${requestScope.lecturer.imageURL}" alt=""/> 
+                            <img class="lecturerImage" src="../${sessionScope.lecturer.imageURL}" alt=""/> 
                         </td>
 
                         <td>
-                            <span>${requestScope.lecturer.username}
+                            <span>${sessionScope.lecturer.username}
                             </span>
-                            <span>${requestScope.lecturer.lecturerID}</span>
+                            <span>${sessionScope.lecturer.lecturerID}</span>
                         </td>
 
                         <td>
@@ -54,7 +55,7 @@
 
                     <tr style="height: 30px">
                         <td rowspan="4">
-                            <img class ="avatar" src="${requestScope.student.imageURL}" alt=""/>
+                            <img class ="avatar" src="../${requestScope.student.imageURL}" alt=""/>
                             <!--<img class ="avatar" src="../image/user_Avatar/1000000000001.png" alt=""/>-->
                         </td>
 
