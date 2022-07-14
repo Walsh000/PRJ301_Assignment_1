@@ -30,6 +30,12 @@ public class testDBC {
         SessionDBContext sessionDBC = new SessionDBContext();
         GroupDBContext groupDBC = new GroupDBContext();
         RoleDBContext roleDBC = new RoleDBContext();
+        AttendanceDBContext attendanceDBC = new AttendanceDBContext();
+        Group group = new Group("CEA201SU2201");
+        System.out.println(attendanceDBC.getAttendanceStatus(group));
+        
+//        attendanceDBC.generateData();
+//        System.out.println(roleDBC.list());
 
 //        ArrayList<Session> sessionList;
 //        sessionList = sessionDBC.listSessionOfLecturerByWeek(new Lecturer("LT000001"), Date.valueOf("2022-07-11"));
@@ -38,10 +44,10 @@ public class testDBC {
 //        ArrayList<Role> roleList = roleDBC.list(feature);
 //        System.out.println(roleList.get(0));
 
-                Feature feature = new Feature();
-                feature.setUrl("/attendance");
-                System.out.println(feature.getUrl());
-                System.out.println(roleDBC.list(feature).size());
+//                Feature feature = new Feature();
+//                feature.setUrl("/attendance");
+//                System.out.println(feature.getUrl());
+//                System.out.println(roleDBC.list(feature).size());
 
 //        sessionDBC.generateData();
 //        sessionDBC.generateData("CEA201SU2201", 1, Date.valueOf("2022-05-02"), "AL301");

@@ -30,6 +30,10 @@ public class Student extends User {
         this.groupList = groupList;
     }
 
+    public Student(String studentID) {
+        this.studentID = studentID;
+    }
+    
     public Student(String StudentID, String userID) {
         super(userID);
         this.studentID = StudentID;

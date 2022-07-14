@@ -24,6 +24,10 @@
         <filter-name>AttendanceUserFilter</filter-name>
         <url-pattern>/attendance</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>AttendanceUserFilter</filter-name>
+        <url-pattern>/editAttendance</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>login</servlet-name>
         <servlet-class>controller.LoginController</servlet-class>

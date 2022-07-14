@@ -24,12 +24,12 @@ import object.User;
 public class testCon {
 
     public static void main(String[] args) {
-        try {
+//        try {
             SessionDBContext sessionDBC = new SessionDBContext();
             LecturerDBContext lecturerDBC = new LecturerDBContext();
             ArrayList<Session> sessionList;
 
-            Date date = Date.valueOf("2022-05-12");
+            Date date = Date.valueOf("2022-05-01");
             Session[][] sessionTable = new Session[8][7];
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
@@ -44,12 +44,13 @@ public class testCon {
             calendar.setFirstDayOfWeek(2);
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             Date mon = new Date(calendar.getTimeInMillis());        //Monday
+            System.out.println(sessionList);
 
             for (Session session : sessionList) {
                 long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
                 long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
-                sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
+                sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus - 1] = session;
             }
 
             for (int i = 0; i < 8; i++) {
@@ -64,8 +65,8 @@ public class testCon {
                 System.out.println("");
             }
 
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+//        } catch (Exception e) {
+//            System.err.println(e.getMessage());
+//        }
     }
 }

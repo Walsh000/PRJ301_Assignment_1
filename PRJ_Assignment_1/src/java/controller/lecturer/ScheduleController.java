@@ -6,6 +6,7 @@ package controller.lecturer;
 
 import dal.LecturerDBContext;
 import dal.SessionDBContext;
+import dal.SlotDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -68,6 +69,7 @@ public class ScheduleController extends HttpServlet {
         SessionDBContext sessionDBC = new SessionDBContext();
         LecturerDBContext lecturerDBC = new LecturerDBContext();
         ArrayList<Session> sessionList;
+        SlotDBContext slotDBC = new SlotDBContext();
 
         Session[][] sessionTable = new Session[8][7];
         Calendar calendar = Calendar.getInstance();
@@ -83,6 +85,9 @@ public class ScheduleController extends HttpServlet {
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         ArrayList<Date> weekDate = new ArrayList<>();
 
+        Date sun = new Date(calendar.getTimeInMillis());        //Sunday
+        weekDate.add(sun);
+        calendar.add(Calendar.DATE, 1);
         Date mon = new Date(calendar.getTimeInMillis());        //Monday
         weekDate.add(mon);
         calendar.add(Calendar.DATE, 1);
@@ -100,17 +105,15 @@ public class ScheduleController extends HttpServlet {
         calendar.add(Calendar.DATE, 1);
         Date sat = new Date(calendar.getTimeInMillis());        //Saturday
         weekDate.add(sat);
-        calendar.add(Calendar.DATE, 1);
-        Date sun = new Date(calendar.getTimeInMillis());        //Sunday
-        weekDate.add(sun);
 
         for (Session session : sessionList) {
-            long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
+            long timeMinus = Math.abs(session.getDate().getTime() - sun.getTime());
             long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
-            sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus - 1] = session;
+            sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
         }
         request.setAttribute("weekDate", weekDate);
+            request.setAttribute("slotList", slotDBC.list());
         request.getSession().setAttribute("schedule", sessionTable);
         request.getRequestDispatcher("view/lecturer/Home.jsp").forward(request, response);
     }
@@ -129,6 +132,7 @@ public class ScheduleController extends HttpServlet {
         SessionDBContext sessionDBC = new SessionDBContext();
         LecturerDBContext lecturerDBC = new LecturerDBContext();
         ArrayList<Session> sessionList;
+        SlotDBContext slotDBC = new SlotDBContext();
 
         Date date = Date.valueOf(request.getParameter("date"));
         Session[][] sessionTable = new Session[8][7];
@@ -141,9 +145,13 @@ public class ScheduleController extends HttpServlet {
         sessionList = sessionDBC.listSessionOfLecturerByWeek(lecturer,
                 new Date(calendar.getTimeInMillis()));
 
-        calendar.setFirstDayOfWeek(2);
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        calendar.setFirstDayOfWeek(1);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         ArrayList<Date> weekDate = new ArrayList<>();
+        
+        Date sun = new Date(calendar.getTimeInMillis());        //Sunday
+        weekDate.add(sun);
+        calendar.add(Calendar.DATE, 1);
         Date mon = new Date(calendar.getTimeInMillis());        //Monday
         weekDate.add(mon);
         calendar.add(Calendar.DATE, 1);
@@ -161,17 +169,15 @@ public class ScheduleController extends HttpServlet {
         calendar.add(Calendar.DATE, 1);
         Date sat = new Date(calendar.getTimeInMillis());        //Saturday
         weekDate.add(sat);
-        calendar.add(Calendar.DATE, 1);
-        Date sun = new Date(calendar.getTimeInMillis());        //Sunday
-        weekDate.add(sun);
 
         for (Session session : sessionList) {
-            long timeMinus = Math.abs(session.getDate().getTime() - mon.getTime());
+            long timeMinus = Math.abs(session.getDate().getTime() - sun.getTime());
             long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
             sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
         }
         request.setAttribute("weekDate", weekDate);
+            request.setAttribute("slotList", slotDBC.list());
         request.getSession().setAttribute("date", date);
         request.getSession().setAttribute("schedule", sessionTable);
         request.getRequestDispatcher("view/lecturer/Home.jsp").forward(request, response);

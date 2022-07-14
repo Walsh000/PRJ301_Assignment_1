@@ -75,11 +75,11 @@ public class EditAttendanceController extends HttpServlet {
         SessionDBContext sessionDBC = new SessionDBContext();
         AttendanceDBContext attendanceDBC = new AttendanceDBContext();
 
-        Session session = new Session();
-        session.setGroup(new Group(request.getParameter("groupID")));
-        session.setDate(Date.valueOf(request.getParameter("date")));
-        session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
-        session = sessionDBC.get(session);
+        Session session = (Session) request.getAttribute("session");
+//        session.setGroup(new Group(request.getParameter("groupID")));
+//        session.setDate(Date.valueOf(request.getParameter("date")));
+//        session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
+//        session = sessionDBC.get(session);
 
         ArrayList<Student> studentList = studentDBC.list(new Group(request.getParameter("groupID")));
         ArrayList<Attendance> attendanceList = new ArrayList<>();
@@ -106,13 +106,15 @@ public class EditAttendanceController extends HttpServlet {
         AttendanceDBContext attendanceDBC = new AttendanceDBContext();
 
         StudentDBContext studentDBC = new StudentDBContext();
-        SessionDBContext sessionDBC = new SessionDBContext();
+//        SessionDBContext sessionDBC = new SessionDBContext();
 
-        Session session = new Session();
-        session.setGroup(new Group(request.getParameter("groupID")));
-        session.setDate(Date.valueOf(request.getParameter("date")));
-        session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
-        session = sessionDBC.get(session);
+        Session session;
+        session = (Session) request.getAttribute("session");
+//        session = new Session();
+//        session.setGroup(new Group(request.getParameter("groupID")));
+//        session.setDate(Date.valueOf(request.getParameter("date")));
+//        session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
+//        session = sessionDBC.get(session);
 
         ArrayList<Student> studentList = studentDBC.list(new Group(request.getParameter("groupID")));
 

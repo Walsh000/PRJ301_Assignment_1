@@ -12,6 +12,7 @@ package object;
 public class Course {
     private String courseID;
     private String courseName;
+    private int numberOfSession;
 
     public Course() {
     }
@@ -45,6 +46,13 @@ public class Course {
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
-    
+
+    public int getNumberOfSession() {
+        return numberOfSession;
+    }
+
+    public void setNumberOfSession(int numberOfSession) {
+        this.numberOfSession = numberOfSession;
+    }
     
 }

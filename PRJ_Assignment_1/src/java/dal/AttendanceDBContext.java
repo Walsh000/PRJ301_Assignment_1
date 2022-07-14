@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import object.Attendance;
+import object.AttendanceStatus;
+import object.Group;
+import object.Lecturer;
 import object.Session;
 import object.Student;
 
@@ -19,7 +22,36 @@ import object.Student;
  * @author Khuat Thi Minh Anh
  */
 public class AttendanceDBContext extends DBContext<Attendance> {
-    
+
+    public ArrayList<AttendanceStatus> getAttendanceStatus(Group group) {
+        try {
+            ArrayList<AttendanceStatus> attendanceStatusList = new ArrayList<>();
+            String attSQL = "select StudentID, s.GroupID, sum(case [Attendance] when 1 then 1 else 0 end) as countAttendance, count(s.SessionID) as countSession \n"
+                    + "from Attendance a\n"
+                    + "inner join [Session] s on s.SessionID = a.SessionID\n"
+                    + "inner join [Group] g on g.GroupID = s.GroupID\n"
+                    + "where s.GroupID = ?\n"
+                    + "and s.Date < '2022-06-20'\n"
+                    + "group by StudentID, s.GroupID";
+            PreparedStatement statement = connection.prepareStatement(attSQL);
+            statement.setString(1, group.getGroupID());
+            ResultSet results = statement.executeQuery();
+            while (results.next()) {
+                AttendanceStatus attendanceStatus = 
+                        new AttendanceStatus(
+                                new Student(results.getString("StudentID")), 
+                                group, 
+                                results.getInt("countSession"), 
+                                results.getInt("countAttendance"));
+                attendanceStatusList.add(attendanceStatus);
+            }
+            return attendanceStatusList;
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public void clear(Session session) {
         try {
             String sql = "UPDATE [Attendance]\n"
@@ -45,7 +77,7 @@ public class AttendanceDBContext extends DBContext<Attendance> {
             statement.setString(1, student.getStudentID());
             statement.setString(2, session.getSessionID());
             ResultSet result = statement.executeQuery();
-            if(result.next()) {
+            if (result.next()) {
                 return result.getBoolean("Attendance");
             }
         } catch (SQLException ex) {
@@ -91,4 +123,39 @@ public class AttendanceDBContext extends DBContext<Attendance> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+//    void generateData() {
+//        try {
+//            String getSessionSQL = "SELECT [SessionID]\n"
+//                    + "      ,[LecturerID]\n"
+//                    + "      ,[GroupID]\n"
+//                    + "      ,[Date]\n"
+//                    + "      ,[SlotNo]\n"
+//                    + "      ,[RoomID]\n"
+//                    + "      ,[SessionContentID]\n"
+//                    + "  FROM [Session]\n"
+//                    + "  where date < '2022-06-20'";
+//            PreparedStatement statement = connection.prepareStatement(getSessionSQL);
+//            ResultSet results = statement.executeQuery();
+//            while (results.next()) {
+//                String getAttendances = "SELECT [StudentID]\n"
+//                        + "      ,[SessionID]\n"
+//                        + "      ,[Attendance]\n"
+//                        + "  FROM [Attendance]"
+//                        + "  WHERE [SessionID] = ?";
+//                PreparedStatement attStatement = connection.prepareStatement(getAttendances);
+//                attStatement.setInt(1, results.getInt("SessionID"));
+//                ResultSet attResults = attStatement.executeQuery();
+//                while (attResults.next()) {
+//                    Attendance attendance = new Attendance(
+//                            new Session(attResults.getString("SessionID")),
+//                            new Student(attResults.getString("StudentID")),
+//                            ((int) (Math.random() * 10)) < 9);
+//                    update(attendance);
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+//
 }

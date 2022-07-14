@@ -33,6 +33,10 @@ public class Session {
         this.sessionContent = sessionContent;
     }
 
+    public Session(String SessionID) {
+        this.SessionID = SessionID;
+    }
+    
     public String getSessionID() {
         return SessionID;
     }

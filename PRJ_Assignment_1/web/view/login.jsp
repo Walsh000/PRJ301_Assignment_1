@@ -13,11 +13,34 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="login" method="POST">
-            Gmail: <input name="gmail" type="text" value="${requestScope.gmail}"></input> <br>
-            Password: <input type="password" name="password"></input> <br/>
-            <input type="submit" value="Login"/>
+        <header>
+            <img class ="navi" src="images/template/Detail05.png" alt=""/>
+            <a href="home"><img class="headerText" src="images/template/Detail03.png" alt=""/></a>
+        </header>
+        <form action="login" method="POST" class="centerForm">
+            <table class="formTable">
+                <tr>
+                    <td class="rowName">
+                        Gmail
+                    </td>
+                    <td>
+                        <input name="gmail" type="text" value="${requestScope.gmail}"></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="rowName">
+                        Password
+                    </td>
+                    <td>
+                        <input type="password" name="password"></input>
+                    </td>
+                </tr>
+            </table> 
+            <input type="submit" value="Login" class="sendButton"/>
             <div style="color: red">${requestScope.message}</div>
         </form>
+        <footer>
+            <img class="foot" src="images/template/Detail01.png" alt=""/>
+        </footer>
     </body>
 </html>

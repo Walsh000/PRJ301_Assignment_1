@@ -77,7 +77,7 @@
             <input type="hidden" name="date" value="${requestScope.session.date}"/>
             <input type="hidden" name="groupID" value="${requestScope.session.group.groupID}"/>
             <input type="hidden" name="slotNo" value="${requestScope.session.slot.slotNo}"/>
-            <input type="submit" name="Submit" value="Submit" style="width: 100px;display: block; margin: auto; font-size: 18px"/>
+            <input type="submit" name="Submit" value="Submit" style="width: 100px;display: block; margin: auto; font-size: 18px" class="submit"/>
         </form>
 
         <footer>

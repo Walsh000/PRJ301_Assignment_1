@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import object.Course;
 import object.Group;
+import object.Lecturer;
 import object.Semester;
 import object.Student;
 
@@ -20,30 +21,52 @@ import object.Student;
  * @author Khuat Thi Minh Anh
  */
 public class GroupDBContext extends DBContext<Group> {
-    
-    public ArrayList<Group> list(Student student) {
+
+//    public ArrayList<Group> list(Student student) {
+//        try {
+//            student.setGroupList(new ArrayList<>());
+//            String sql = "select u.UserID, s.StudentID, Username, g.GroupID, g.CourseID, g.SemesterID\n"
+//                    + "from Student s \n"
+//                    + "inner join [User] u on s.userID = u.UserID \n"
+//                    + "inner join Enroll e on e.StudentID = s.StudentID\n"
+//                    + "inner join [Group] g on g.GroupID = e.GroupID\n"
+//                    + "WHERE s.StudentID = ?";
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//            statement.setString(1, student.getStudentID());
+//            ResultSet resultSet = statement.executeQuery();
+//            while (resultSet.next()) {
+////                Student std = new Student(resultSet.getString("StudentID"), resultSet.getString("UserID"));
+////                std.setUsername(resultSet.getString("Username"));
+//                student.getGroupList().add(new Group(resultSet.getString("GroupID"),
+//                        new Course(resultSet.getString("CourseID")),
+//                        new Semester(resultSet.getString("SemesterID"))));
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return student.getGroupList();
+//    }
+
+    public ArrayList<Group> list(Lecturer lecturer) {
+        lecturer.setGroupList(new ArrayList<>());
         try {
-            student.setGroupList(new ArrayList<>());
-            String sql = "select u.UserID, s.StudentID, Username, g.GroupID, g.CourseID, g.SemesterID\n"
-                    + "from Student s \n"
-                    + "inner join [User] u on s.userID = u.UserID \n"
-                    + "inner join Enroll e on e.StudentID = s.StudentID\n"
-                    + "inner join [Group] g on g.GroupID = e.GroupID\n"
-                    + "WHERE s.StudentID = ?";
+            String sql = "  select s.GroupID, g.CourseID, g.SemesterID\n"
+                    + "  from [Session] s \n"
+                    + "  inner join [Group] g on g.GroupID = s.GroupID\n"
+                    + "  where LecturerID = ?\n"
+                    + "  group by s.GroupID, g.CourseID, g.SemesterID";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, student.getStudentID());
+            statement.setString(1, lecturer.getLecturerID());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Student std = new Student(resultSet.getString("StudentID"), resultSet.getString("UserID"));
-                std.setUsername(resultSet.getString("Username"));
-                student.getGroupList().add(new Group(resultSet.getString("GroupID"),
+                lecturer.getGroupList().add(new Group(resultSet.getString("GroupID"),
                         new Course(resultSet.getString("CourseID")),
                         new Semester(resultSet.getString("SemesterID"))));
             }
         } catch (SQLException ex) {
             Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return student.getGroupList();
+        return lecturer.getGroupList();
     }
 
     @Override
@@ -144,7 +167,6 @@ public class GroupDBContext extends DBContext<Group> {
 //        }
 //
 //    }
-    
     public void generateData() {
         try {
             String getListSQL = "Select SessionID, StudentID from [Session] "
@@ -152,15 +174,14 @@ public class GroupDBContext extends DBContext<Group> {
             String insertSQL = "INSERT INTO [Attendance] (StudentID, SessionID, Attendance) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(getListSQL);
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 PreparedStatement insertStatement = connection.prepareStatement(insertSQL);
                 insertStatement.setString(1, resultSet.getString("StudentID"));
                 insertStatement.setString(2, resultSet.getString("SessionID"));
                 insertStatement.setBoolean(3, false);
                 insertStatement.executeUpdate();
             }
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }

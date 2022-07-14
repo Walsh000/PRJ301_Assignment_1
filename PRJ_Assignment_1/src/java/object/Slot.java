@@ -13,16 +13,16 @@ import java.sql.Time;
  */
 public class Slot {
     private int slotNo;
-    private Time StartTime;
-    private Time EndTime;
+    private Time startTime;
+    private Time endTime;
 
     public Slot() {
     }
 
     public Slot(int SlotNo, Time StartTime, Time EndTime) {
         this.slotNo = SlotNo;
-        this.StartTime = StartTime;
-        this.EndTime = EndTime;
+        this.startTime = StartTime;
+        this.endTime = EndTime;
     }
 
     public Slot(int SlotNo) {
@@ -38,19 +38,19 @@ public class Slot {
     }
 
     public Time getStartTime() {
-        return StartTime;
+        return startTime;
     }
 
     public void setStartTime(Time StartTime) {
-        this.StartTime = StartTime;
+        this.startTime = StartTime;
     }
 
     public Time getEndTime() {
-        return EndTime;
+        return endTime;
     }
 
     public void setEndTime(Time EndTime) {
-        this.EndTime = EndTime;
+        this.endTime = EndTime;
     }
     
     

@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/template.css" rel="stylesheet" type="text/css"/>
+        <link href="css/w3.css" rel="stylesheet" type="text/css"/>
         <title>Show attendance status</title>
     </head>
     <body>
@@ -39,5 +40,11 @@
                 </div>
             </div>
         </header>
+        <div>
+
+        </div>
+        <footer>
+            <img class="foot" src="images/template/Detail01.png" style="position: relative; float: right; margin-bottom: 0" alt=""/>
+        </footer>
     </body>
 </html>

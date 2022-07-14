@@ -53,13 +53,13 @@
             <table >
                 <tr id="tableHead">
                     <th></th>
-                    <th>Monday <br/>${requestScope.weekDate.get(0)}</th>
-                    <th>Tuesday <br/>${requestScope.weekDate.get(1)}</th>
-                    <th>Wednesday <br/>${requestScope.weekDate.get(2)}</th>
-                    <th>Thursday <br/>${requestScope.weekDate.get(3)}</th>
-                    <th>Friday <br/>${requestScope.weekDate.get(4)}</th>
-                    <th>Saturday <br/>${requestScope.weekDate.get(5)}</th>
-                    <th>Sunday <br/>${requestScope.weekDate.get(6)}</th>
+                    <th>Sunday <br/>${requestScope.weekDate.get(0)}</th>
+                    <th>Monday <br/>${requestScope.weekDate.get(1)}</th>
+                    <th>Tuesday <br/>${requestScope.weekDate.get(2)}</th>
+                    <th>Wednesday <br/>${requestScope.weekDate.get(3)}</th>
+                    <th>Thursday <br/>${requestScope.weekDate.get(4)}</th>
+                    <th>Friday <br/>${requestScope.weekDate.get(5)}</th>
+                    <th>Saturday <br/>${requestScope.weekDate.get(6)}</th>
                 </tr>
 
                 <%int i = 1;%>
