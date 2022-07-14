@@ -18,19 +18,17 @@ public class Session {
     private Group group;
     private Date Date;
     private Room Room;
-    private SessionContent sessionContent;
 
     public Session() {
     }
 
-    public Session(String SessionID, Lecturer lecturer, Slot Slot, Group Group, Date Date, Room Room, SessionContent sessionContent) {
+    public Session(String SessionID, Lecturer lecturer, Slot Slot, Group Group, Date Date, Room Room) {
         this.SessionID = SessionID;
         this.lecturer = lecturer;
         this.Slot = Slot;
         this.group = Group;
         this.Date = Date;
         this.Room = Room;
-        this.sessionContent = sessionContent;
     }
 
     public Session(String SessionID) {
@@ -76,15 +74,7 @@ public class Session {
     public void setRoom(Room Room) {
         this.Room = Room;
     }
-
-    public SessionContent getSessionContent() {
-        return sessionContent;
-    }
-
-    public void setSessionContent(SessionContent sessionContent) {
-        this.sessionContent = sessionContent;
-    }
-
+    
     public Lecturer getLecturer() {
         return lecturer;
     }

@@ -17,6 +17,7 @@
             <img class ="navi" src="images/template/Detail05.png" alt=""/>
             <a href="home"><img class="headerText" src="images/template/Detail03.png" alt=""/></a>
         </header>
+        <h1  class="title" style="margin-top: 120px; margin-bottom: 50px">Login</h1>
         <form action="login" method="POST" class="centerForm">
             <table class="formTable">
                 <tr>

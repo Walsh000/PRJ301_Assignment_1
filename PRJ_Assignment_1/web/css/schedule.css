@@ -51,10 +51,10 @@
 .schedule .tb:last-child > td:last-child {
     border-bottom-right-radius: 10px;
 }
-
+/*
 h1 {
     text-align: center;
-}
+}*/
 
 form {
     text-align: center;

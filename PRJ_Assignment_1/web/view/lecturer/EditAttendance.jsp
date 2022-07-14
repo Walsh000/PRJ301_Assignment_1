@@ -48,7 +48,7 @@
 
 
         <div class="sessionInfor">
-            <h1 class="title">Attendance</h1>
+            <h1 class="title">Edit attendance</h1>
             <h3 class="infor">${requestScope.session.group.course.courseID}    |    ${requestScope.session.date}    |    Slot: ${requestScope.session.slot.slotNo}</h3>
         </div>
         <form action="editAttendance" method="POST">

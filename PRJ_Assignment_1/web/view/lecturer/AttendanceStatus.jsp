@@ -4,7 +4,9 @@
     Author     : fpt
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page session="true" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,6 +19,7 @@
         <header>
             <img class ="navi" src="images/template/Detail05.png" alt=""/>
             <a href="home"><img class="headerText" src="images/template/Detail03.png" alt=""/></a>
+            
             <div class="dropdown">
                 <table class="headerUser dropbtn">
                     <tr>
@@ -42,6 +45,7 @@
         </header>
         <div>
 
+            <h1 class="title">Attendance status</h1>
         </div>
         <footer>
             <img class="foot" src="images/template/Detail01.png" style="position: relative; float: right; margin-bottom: 0" alt=""/>

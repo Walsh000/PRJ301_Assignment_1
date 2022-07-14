@@ -5,12 +5,16 @@
 
 package controller.lecturer;
 
+import dal.AttendanceDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import object.AttendanceStatus;
+import object.Group;
 
 /**
  *
@@ -27,7 +31,10 @@ public class AttendanceStatusController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
+        AttendanceDBContext attendanceDBC = new AttendanceDBContext();
+        String groupID = request.getParameter("groupID");
+        ArrayList<AttendanceStatus> attendanceStatusList = attendanceDBC.getAttendanceStatus(new Group(groupID));
+        request.setAttribute("attendanceStatusList", attendanceStatusList);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -41,7 +48,7 @@ public class AttendanceStatusController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("view/lecturer/AttendanceStatus.jsp").forward(request, response);
     } 
 
     /** 
@@ -55,6 +62,7 @@ public class AttendanceStatusController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
+        request.getRequestDispatcher("view/lecturer/AttendanceStatus.jsp").forward(request, response);
     }
 
     /** 

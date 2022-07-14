@@ -14,11 +14,11 @@ body{
 
 .centerForm{
     background-image: linear-gradient(rgba(140, 150, 255, 1), rgba(200, 210, 255, 1));
-    padding: 20px 10%;
+    padding: 20px 40px;
     position: relative;
-    top: 25%;
+    /*top: 25%;*/
     margin: auto;
-    margin-top:200px;
+    margin-top: 50px;
     width: 50%;
     box-shadow: 3px 3px 3px 3px rgba(150, 150, 150, 0.8);
     border-radius: 7px;
@@ -29,7 +29,7 @@ body{
 }
 
 .formTable .rowName{
-    width: 10%;
+    width: 15%;
     text-align: right;
 }
 
@@ -37,10 +37,10 @@ body{
     border-radius: 5px;
     border: 0;
     height: 30px;
-    width: 100%;
-    margin: auto;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    width: 90%;
+    /*align-content: right;*/
+    margin: 5px 0px;
+    margin-left: 5%; 
 }
 
 .centerForm .button {
@@ -65,8 +65,9 @@ input.sendButton {
 }
 
 h1 {
-    color: #fff;
+    color: #000;
     margin: auto;
+    /*text-align: center;*/
 }
 
 header {
@@ -75,7 +76,7 @@ header {
     padding: 15px;
     margin: 0;
     display: block;
-    height: 30px
+    /*height: 30px*/
 }
 
 .headerText {

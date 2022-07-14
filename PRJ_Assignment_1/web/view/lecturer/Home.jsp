@@ -43,7 +43,7 @@
                 </div>
             </div>
         </header>
-        <h1>Schedule table</h1>
+        <h1 class="title" style="margin-top: 50px; margin-bottom: 20px">Schedule table</h1>
         <form action="schedule" method="post" style="margin-bottom: 10px">
             <input type="date" name="date" value="${sessionScope.date}"></input>
             <button type="submit"><i class="fa fa-search"></i></button>

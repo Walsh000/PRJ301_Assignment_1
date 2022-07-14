@@ -14,7 +14,6 @@
         <title>Check attendance</title>
         <link href="css/template.css" rel="stylesheet" type="text/css"/>
         <link href="css/AttendButton.css" rel="stylesheet" type="text/css"/>
-        <!--<script src="../js/pagger.js" type="text/javascript"></script>-->
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
     <body>

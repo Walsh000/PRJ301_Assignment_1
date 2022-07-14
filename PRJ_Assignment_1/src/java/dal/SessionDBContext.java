@@ -18,7 +18,6 @@ import object.Lecturer;
 import object.Room;
 import object.Semester;
 import object.Session;
-import object.SessionContent;
 import object.Slot;
 import object.Student;
 import object.User;
@@ -81,7 +80,6 @@ public class SessionDBContext extends DBContext<Session> {
                     + "      ,[Date]\n"
                     + "      ,[SlotNo]\n"
                     + "      ,[RoomID]\n"
-                    + "      ,[SessionContentID]\n"
                     + "FROM Lecturer l "
                     + "inner join [Session] s on l.LecturerID = s.LecturerID"
                     + " WHERE l.LecturerID = ?";
@@ -93,8 +91,7 @@ public class SessionDBContext extends DBContext<Session> {
                         lecturer, new Slot(result.getInt("SlotNo")),
                         new Group(result.getString("GroupID")),
                         result.getDate("Date"),
-                        new Room(result.getString("RoomID")),
-                        new SessionContent(result.getString("SessionContentID")));
+                        new Room(result.getString("RoomID")));
                 sessionList.add(session);
             }
         } catch (SQLException ex) {
@@ -123,7 +120,7 @@ public class SessionDBContext extends DBContext<Session> {
                         new Slot(resultSet.getInt("SlotNo")), 
                         new Group(resultSet.getString("GroupID")), 
                         resultSet.getDate("Date"), 
-                        new Room(resultSet.getString("RoomID")), null);
+                        new Room(resultSet.getString("RoomID")));
                 sessionList.add(session);
             }
             
