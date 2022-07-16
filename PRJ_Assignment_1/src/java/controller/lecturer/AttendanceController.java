@@ -79,7 +79,7 @@ public class AttendanceController extends HttpServlet {
         request.setAttribute("student", student);
         request.setAttribute("index", index);
         request.setAttribute("session", session);
-        request.getRequestDispatcher("view/lecturer/attendance.jsp").forward(request, response);
+        request.getRequestDispatcher("view/lecturer/Attendance.jsp").forward(request, response);
     }
 
     /**
@@ -119,6 +119,10 @@ public class AttendanceController extends HttpServlet {
 //        Student student = studentDBC.pagging(index, session.getGroup().getGroupID());
         index++;
         if (index == studentList.size()) {
+            sessionDBC.update(session);
+            request.setAttribute("session", session);
+
+//            request.getRequestDispatcher("view/lecturer/EditAttendance.jsp").forward(request, response);
             response.sendRedirect(getServletContext() + "/home");
         } else {
             student = studentList.get(index);
@@ -131,7 +135,7 @@ public class AttendanceController extends HttpServlet {
             request.setAttribute("student", student);
             request.setAttribute("index", index);
             request.setAttribute("session", session);
-            request.getRequestDispatcher("view/lecturer/attendance.jsp").forward(request, response);
+            request.getRequestDispatcher("view/lecturer/Attendance.jsp").forward(request, response);
         }
 
     }

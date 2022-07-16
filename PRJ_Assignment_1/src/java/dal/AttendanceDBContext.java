@@ -12,10 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import object.Attendance;
 import object.AttendanceStatus;
+import object.Course;
 import object.Group;
 import object.Lecturer;
 import object.Session;
 import object.Student;
+import object.User;
 
 /**
  *
@@ -25,24 +27,30 @@ public class AttendanceDBContext extends DBContext<Attendance> {
 
     public ArrayList<AttendanceStatus> getAttendanceStatus(Group group) {
         try {
+            CourseDBContext courseDBC = new CourseDBContext();
             ArrayList<AttendanceStatus> attendanceStatusList = new ArrayList<>();
-            String attSQL = "select StudentID, s.GroupID, sum(case [Attendance] when 1 then 1 else 0 end) as countAttendance, count(s.SessionID) as countSession \n"
+            String attSQL = "select a.StudentID, u.Username, u.UserID, s.GroupID, g.CourseID, sum(case [Attendance] when 1 then 1 else 0 end) as countAttendance, count(s.SessionID) as countSession \n"
                     + "from Attendance a\n"
                     + "inner join [Session] s on s.SessionID = a.SessionID\n"
                     + "inner join [Group] g on g.GroupID = s.GroupID\n"
+                    + "inner join [Student] st on a.StudentID = st.StudentID\n"
+                    + "inner join [User] u on u.UserID=st.UserID\n"
                     + "where s.GroupID = ?\n"
-                    + "and s.Date < '2022-06-20'\n"
-                    + "group by StudentID, s.GroupID";
+                    + "and s.attendanceChecked = 1\n"
+                    + "group by a.StudentID, s.GroupID, u.Username, u.UserID, g.CourseID";
             PreparedStatement statement = connection.prepareStatement(attSQL);
             statement.setString(1, group.getGroupID());
             ResultSet results = statement.executeQuery();
             while (results.next()) {
                 AttendanceStatus attendanceStatus = 
                         new AttendanceStatus(
-                                new Student(results.getString("StudentID")), 
+                                new Student(new User(results.getString("UserID"), 
+                                        results.getString("Username")), 
+                                        results.getString("StudentID")), 
                                 group, 
-                                results.getInt("countSession"), 
-                                results.getInt("countAttendance"));
+                                (double) results.getInt("countSession") / courseDBC.get(new Group(results.getString("GroupID"), new Course(results.getString("CourseID")))).getNumberOfSession(), 
+                                (double) results.getInt("countAttendance")/results.getInt("countSession"),
+                        (double) (results.getInt("countSession") - results.getInt("countAttendance"))/results.getInt("countSession"));
                 attendanceStatusList.add(attendanceStatus);
             }
             return attendanceStatusList;

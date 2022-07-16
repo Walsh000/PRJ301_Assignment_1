@@ -11,12 +11,35 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import object.Course;
+import object.Group;
 
 /**
  *
  * @author Khuat Thi Minh Anh
  */
 public class CourseDBContext extends DBContext<Course> {
+    
+    public Course get(Group group) {
+        try {
+            String sql = "SELECT [CourseID]\n"
+                    + "      ,[CourseName]\n"
+                    + "      ,[NumberOfSession]\n"
+                    + "  FROM [Course]"
+                    + "  WHERE CourseID = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, group.getCourse().getCourseID());
+            ResultSet results = statement.executeQuery();
+            if (results.next()) {
+                Course course = new Course(results.getString("CourseID"), results.getString("CourseName"));
+                course.setNumberOfSession(results.getInt("NumberOfSession"));
+                return course;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+        
+    }
 
     @Override
     public ArrayList<Course> list() {

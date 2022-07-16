@@ -18,6 +18,7 @@ public class Session {
     private Group group;
     private Date Date;
     private Room Room;
+    private boolean attendanceChecked;
 
     public Session() {
     }
@@ -81,6 +82,14 @@ public class Session {
 
     public void setLecturer(Lecturer lecturer) {
         this.lecturer = lecturer;
+    }
+
+    public boolean isAttendanceChecked() {
+        return attendanceChecked;
+    }
+
+    public void setAttendanceChecked(boolean attendanceChecked) {
+        this.attendanceChecked = attendanceChecked;
     }
 
     @Override

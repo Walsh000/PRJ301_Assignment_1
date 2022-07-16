@@ -5,6 +5,8 @@
 
 package object;
 
+import java.util.Formatter;
+
 /**
  *
  * @author Khuat Thi Minh Anh
@@ -12,17 +14,19 @@ package object;
 public class AttendanceStatus {
     private Student student;
     private Group group;
-    private int tookPlace;
-    private int attend;
+    private double progress;
+    private double attendRate;
+    private double absentRate;
 
     public AttendanceStatus() {
     }
 
-    public AttendanceStatus(Student student, Group group, int tookPlace, int attend) {
+    public AttendanceStatus(Student student, Group group, double progress, double attendRate, double absentRate) {
         this.student = student;
         this.group = group;
-        this.tookPlace = tookPlace;
-        this.attend = attend;
+        this.progress = progress;
+        this.attendRate = attendRate;
+        this.absentRate = absentRate;
     }
 
     public Student getStudent() {
@@ -41,29 +45,33 @@ public class AttendanceStatus {
         this.group = group;
     }
 
-    public int getTookPlace() {
-        return tookPlace;
+    public double getProgress() {
+        return progress;
     }
 
-    public void setTookPlace(int tookPlace) {
-        this.tookPlace = tookPlace;
+    public void setProgress(double progress) {
+        this.progress = progress;
     }
 
-    public int getAttend() {
-        return attend;
+    public double getAttendRate() {
+        return attendRate;
     }
 
-    public void setAttend(int attend) {
-        this.attend = attend;
+    public void setAttendRate(double attendRate) {
+        this.attendRate = attendRate;
     }
-    
-    public int getAbsent() {
-        return tookPlace - attend;
+
+    public double getAbsentRate() {
+        return absentRate;
+    }
+
+    public void setAbsentRate(double absentRate) {
+        this.absentRate = absentRate;
     }
 
     @Override
     public String toString() {
-        return student + " | " + group.getGroupID() + " | " + tookPlace + " | " + attend + "\n";
+        return student + " | " + group.getGroupID() + " | " + progress + " | " + attendRate + "\n";
     }
     
 }

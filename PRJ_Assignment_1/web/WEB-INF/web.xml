@@ -12,14 +12,14 @@
         <filter-name>ResourceFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>-->
-    <filter>
-        <filter-name>AttendanceUserFilter</filter-name>
-        <filter-class>filter.AttendanceUserFilter</filter-class>
-    </filter>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>AttendanceUserFilter</filter-name>
+        <filter-class>filter.AttendanceUserFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>AttendanceUserFilter</filter-name>
         <url-pattern>/attendance</url-pattern>
@@ -89,4 +89,10 @@
             30
         </session-timeout>
     </session-config>
+    <jsp-config>
+        <taglib>
+            <taglib-uri>https://your.uri/jsp/tlds/format</taglib-uri>
+            <taglib-location>/WEB-INF/tlds/NumberFormatTag.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 </web-app>

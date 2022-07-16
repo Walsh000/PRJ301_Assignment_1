@@ -1,0 +1,48 @@
+.attendBar {
+    display: inline-block;
+}
+
+.absentBar {
+    display: inline-block;
+}
+
+.table {
+    margin-top:0;
+    width: 80%;
+    text-align: center;
+    display: block;
+    margin: auto;
+    margin-top:20px;
+}
+
+.table table {
+    width: 100%;
+    /*background-color: #000;*/
+    display: block;
+    margin: auto;
+    border-radius: 13px;
+    
+}
+
+.table table tbody {
+    /*width: 100%;*/
+}
+
+.table th {
+    background: #ffcc99;
+    padding: 3px 0px;
+}
+
+.table td {
+    padding: 5px 5px;
+    /*width: 125px;*/
+    background-color: #ffff88;
+}
+
+.table td.std {
+    width: 10%;
+    padding: 0px 10px
+}
+
+.table td.progress {
+}

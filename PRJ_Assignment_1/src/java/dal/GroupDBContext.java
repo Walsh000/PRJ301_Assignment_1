@@ -96,10 +96,14 @@ public class GroupDBContext extends DBContext<Group> {
         try {
             String sql = "SELECT [GroupID]\n"
                     + "      ,[StudentID]\n"
-                    + "  FROM [Enroll] WHERE GroupID = ?";
+                    + "      ,[CourseID]\n"
+                    + "  FROM [Enroll] e "
+                    + "  inner join [Group] g on g.GroupID = e.GroupID"
+                    + "  WHERE GroupID = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet result = statement.executeQuery();
             entity.setStudentList(new ArrayList<>());
+            entity.setCourse(new Course(result.getString("CourseID")));
             while (result.next()) {
                 Student student = new Student();
                 student.setStudentID(result.getString("StudentID"));

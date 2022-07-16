@@ -12,8 +12,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="css/template.css" rel="stylesheet" type="text/css"/>
-        <link href="css/schedule.css" rel="stylesheet" type="text/css"/>
+        <link href="css/Template.css" rel="stylesheet" type="text/css"/>
+        <link href="css/Schedule.css" rel="stylesheet" type="text/css"/>
         <title>Assignment homepage</title>
     </head>
     <body>
@@ -40,6 +40,7 @@
                 </table>
                 <div class="dropdown-content">
                     <a href="logout">Logout</a>
+                    <a href="attendanceStatus">Attendance status</a>
                 </div>
             </div>
         </header>
@@ -74,7 +75,14 @@
                             </c:if>
                             <c:if test="${session ne null}">
                                 <td style="text-align: center">
-                                    <a href="attendance?groupID=${session.group.groupID}&date=${session.date}&slotNo=${session.slot.slotNo}">
+                                    <a 
+                                        <c:if test="${!session.attendanceChecked}">
+                                            href="attendance?groupID=${session.group.groupID}&date=${session.date}&slotNo=${session.slot.slotNo}"
+                                        </c:if>
+                                        <c:if test="${session.attendanceChecked}">
+                                            href="editAttendance?groupID=${session.group.groupID}&date=${session.date}&slotNo=${session.slot.slotNo}"
+                                        </c:if>
+                                        >
                                         <span style="color: #000">${session.group.groupID}</span>
                                         <span style="color: #06f">${session.room.roomID}</span>
                                     </a>

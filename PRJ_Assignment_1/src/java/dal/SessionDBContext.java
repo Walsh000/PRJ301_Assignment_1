@@ -80,18 +80,20 @@ public class SessionDBContext extends DBContext<Session> {
                     + "      ,[Date]\n"
                     + "      ,[SlotNo]\n"
                     + "      ,[RoomID]\n"
+                    + "      ,[attendanceChecked]\n"
                     + "FROM Lecturer l "
                     + "inner join [Session] s on l.LecturerID = s.LecturerID"
                     + " WHERE l.LecturerID = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, lecturer.getLecturerID());
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                Session session = new Session(result.getString("SessionID"),
-                        lecturer, new Slot(result.getInt("SlotNo")),
-                        new Group(result.getString("GroupID")),
-                        result.getDate("Date"),
-                        new Room(result.getString("RoomID")));
+            ResultSet results = statement.executeQuery();
+            while (results.next()) {
+                Session session = new Session(results.getString("SessionID"),
+                        lecturer, new Slot(results.getInt("SlotNo")),
+                        new Group(results.getString("GroupID")),
+                        results.getDate("Date"),
+                        new Room(results.getString("RoomID")));
+                session.setAttendanceChecked(results.getBoolean("attendanceChecked"));
                 sessionList.add(session);
             }
         } catch (SQLException ex) {
@@ -101,9 +103,9 @@ public class SessionDBContext extends DBContext<Session> {
     }
 
     public ArrayList<Session> listSessionOfLecturerByWeek(Lecturer lecturer, Date date) {
-            ArrayList<Session> sessionList = new ArrayList<>();
+        ArrayList<Session> sessionList = new ArrayList<>();
         try {
-            String sql = "select SessionID, LecturerID, g.GroupID, [Date], SlotNo, RoomID "
+            String sql = "select SessionID, LecturerID, g.GroupID, [Date], SlotNo, RoomID, attendanceChecked "
                     + "from [Session] s inner join [Group] g on s.GroupID = g.GroupID\n"
                     + "where LecturerID = ?\n"
                     + "and DATEPART(wk, [Date]) = DATEPART(wk, ?)\n"
@@ -113,17 +115,18 @@ public class SessionDBContext extends DBContext<Session> {
             statement.setDate(2, date);
             statement.setDate(3, date);
             ResultSet resultSet = statement.executeQuery();
-            
-            while(resultSet.next()) {
-                Session session = new Session(resultSet.getString("SessionID"), 
-                        lecturer, 
-                        new Slot(resultSet.getInt("SlotNo")), 
-                        new Group(resultSet.getString("GroupID")), 
-                        resultSet.getDate("Date"), 
+
+            while (resultSet.next()) {
+                Session session = new Session(resultSet.getString("SessionID"),
+                        lecturer,
+                        new Slot(resultSet.getInt("SlotNo")),
+                        new Group(resultSet.getString("GroupID")),
+                        resultSet.getDate("Date"),
                         new Room(resultSet.getString("RoomID")));
+                session.setAttendanceChecked(resultSet.getBoolean("attendanceChecked"));
                 sessionList.add(session);
             }
-            
+
             return sessionList;
         } catch (SQLException ex) {
             Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,6 +153,7 @@ public class SessionDBContext extends DBContext<Session> {
                         + "      ,[Date]\n"
                         + "      ,[SlotNo]\n"
                         + "      ,[RoomID]\n"
+                        + "      ,[attendanceChecked]\n"
                         + "  FROM [Session] s "
                         + "INNER JOIN [Group] g on s.GroupID = g.GroupID "
                         + "INNER JOIN [Lecturer] l on s.LecturerID = l.LecturerID "
@@ -172,6 +176,7 @@ public class SessionDBContext extends DBContext<Session> {
                         + "      ,[Date]\n"
                         + "      ,[SlotNo]\n"
                         + "      ,[RoomID]\n"
+                        + "      ,[attendanceChecked]\n"
                         + "  FROM [Session] s "
                         + "INNER JOIN [Group] g on s.GroupID = g.GroupID "
                         + "INNER JOIN [Lecturer] l on s.LecturerID = l.LecturerID "
@@ -199,6 +204,7 @@ public class SessionDBContext extends DBContext<Session> {
                 entity.setSlot(new Slot(resultSet.getInt("SlotNo")));
 //                entity.setSlot(new Slot(resultSet.getInt("SlotNo")));
                 entity.setRoom(new Room(resultSet.getString("RoomID")));
+                entity.setAttendanceChecked(resultSet.getBoolean("attendanceChecked"));
                 return entity;
             }
         } catch (SQLException ex) {
@@ -214,7 +220,17 @@ public class SessionDBContext extends DBContext<Session> {
 
     @Override
     public void update(Session entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            String sql = "UPDATE [dbo].[Session]\n"
+                    + "   SET [attendanceChecked] = 1\n"
+                    + " WHERE SessionID = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, entity.getSessionID());
+            ResultSet resultSet = statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @Override
@@ -246,30 +262,29 @@ public class SessionDBContext extends DBContext<Session> {
 //            currentDate = addDays(currentDate, 7);
 //        }
 //}
-    public void generateData() {
-        try {
-            String getGroupSQL = "SELECT GroupID, LecturerID FROM [GROUP]";
-            String updateLectSession = "UPDATE [Session] SET LecturerID = ? "
-                    + "WHERE GroupID = ?";
-            PreparedStatement setGroupStatement = connection.prepareStatement(getGroupSQL);
-            ResultSet resultSet = setGroupStatement.executeQuery();
-            while (resultSet.next()) {
-                PreparedStatement updateStatement = connection.prepareStatement(updateLectSession);
-                updateStatement.setString(1, resultSet.getString("LecturerID"));
-                updateStatement.setString(2, resultSet.getString("GroupID"));
-                updateStatement.executeUpdate();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public static Date addDays(Date date, int days) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(Calendar.DATE, days);
-        return new Date(c.getTimeInMillis());
-    }
-
+//    public void generateData() {
+//        try {
+//            String getGroupSQL = "SELECT GroupID, LecturerID FROM [GROUP]";
+//            String updateLectSession = "UPDATE [Session] SET LecturerID = ? "
+//                    + "WHERE GroupID = ?";
+//            PreparedStatement setGroupStatement = connection.prepareStatement(getGroupSQL);
+//            ResultSet resultSet = setGroupStatement.executeQuery();
+//            while (resultSet.next()) {
+//                PreparedStatement updateStatement = connection.prepareStatement(updateLectSession);
+//                updateStatement.setString(1, resultSet.getString("LecturerID"));
+//                updateStatement.setString(2, resultSet.getString("GroupID"));
+//                updateStatement.executeUpdate();
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
+//
+//    public static Date addDays(Date date, int days) {
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(date);
+//        c.add(Calendar.DATE, days);
+//        return new Date(c.getTimeInMillis());
+//    }
 }

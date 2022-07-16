@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="css/template.css" rel="stylesheet" type="text/css"/>
+        <link href="css/Template.css" rel="stylesheet" type="text/css"/>
         <link href="css/AttendButton.css" rel="stylesheet" type="text/css"/>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <title>Edit Attendance</title>
@@ -42,6 +42,7 @@
                 </table>
                 <div class="dropdown-content">
                     <a href="logout">Logout</a>
+                    <a href="attendanceStatus">Attendance status</a>
                 </div>
             </div>
         </header>
