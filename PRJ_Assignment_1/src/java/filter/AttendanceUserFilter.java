@@ -119,15 +119,16 @@ public class AttendanceUserFilter implements Filter {
         if (httpSession != null) {
             LecturerDBContext lecturerDBC = new LecturerDBContext();
             SessionDBContext sessionDBC = new SessionDBContext();
-            User user = (User) httpSession.getAttribute("user");
-            Lecturer sessionLecturer = lecturerDBC.get(user);
-            
+//            User user = (User) httpSession.getAttribute("user");
+//            Lecturer sessionLecturer = lecturerDBC.get(user);
+            Lecturer sessionLecturer = (Lecturer) req.getSession().getAttribute("lecturer");
+
             Session session = new Session();
             session.setGroup(new Group(request.getParameter("groupID")));
             session.setDate(Date.valueOf(request.getParameter("date")));
             session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
             session = sessionDBC.get(session);
-            
+
             if (session != null && session.getLecturer().getLecturerID().equals(sessionLecturer.getLecturerID())) {
                 req.setAttribute("session", session);
                 chain.doFilter(request, response);

@@ -2,11 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.lecturer;
+package controller.student;
 
+import dal.AttendanceDBContext;
 import dal.LecturerDBContext;
 import dal.SessionDBContext;
 import dal.SlotDBContext;
+import dal.StudentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,8 +20,10 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
+import object.Attendance;
 import object.Lecturer;
 import object.Session;
+import object.Student;
 import object.User;
 
 /**
@@ -67,18 +71,20 @@ public class ScheduleController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         SessionDBContext sessionDBC = new SessionDBContext();
-        LecturerDBContext lecturerDBC = new LecturerDBContext();
+        StudentDBContext studentDBC = new StudentDBContext();
+        AttendanceDBContext attendanceDBC = new AttendanceDBContext();
         ArrayList<Session> sessionList;
         SlotDBContext slotDBC = new SlotDBContext();
 
-        Session[][] sessionTable = new Session[8][7];
+        Attendance[][] attendanceTable = new Attendance[8][7];
+//        Session[][] sessionTable = new Session[8][7];
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         request.getSession().setAttribute("date", new Date(calendar.getTimeInMillis()));
 
 //        User user = (User) request.getSession().getAttribute("user");
-        Lecturer lecturer = (Lecturer) request.getSession().getAttribute("lecturer");
-        sessionList = sessionDBC.listSessionOfLecturerByWeek(lecturer,
+        Student student = (Student) request.getSession().getAttribute("student");
+        sessionList = sessionDBC.listSessionOfStudentByWeek(student,
                 new Date(calendar.getTimeInMillis()));
 
         calendar.setFirstDayOfWeek(2);
@@ -110,12 +116,13 @@ public class ScheduleController extends HttpServlet {
             long timeMinus = Math.abs(session.getDate().getTime() - sun.getTime());
             long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
-            sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
+//            sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
+            attendanceTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = attendanceDBC.get(new Attendance(session, student));
         }
         request.setAttribute("weekDate", weekDate);
-        request.setAttribute("slotList", slotDBC.list());
-        request.getSession().setAttribute("schedule", sessionTable);
-        request.getRequestDispatcher("view/lecturer/Home.jsp").forward(request, response);
+            request.setAttribute("slotList", slotDBC.list());
+        request.getSession().setAttribute("schedule", attendanceTable);
+        request.getRequestDispatcher("view/student/Home.jsp").forward(request, response);
     }
 
     /**
@@ -130,25 +137,27 @@ public class ScheduleController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         SessionDBContext sessionDBC = new SessionDBContext();
-        LecturerDBContext lecturerDBC = new LecturerDBContext();
+        StudentDBContext studentDBC = new StudentDBContext();
+        AttendanceDBContext attendanceDBC = new AttendanceDBContext();
         ArrayList<Session> sessionList;
         SlotDBContext slotDBC = new SlotDBContext();
 
         Date date = Date.valueOf(request.getParameter("date"));
-        Session[][] sessionTable = new Session[8][7];
+        Attendance[][] attendanceTable = new Attendance[8][7];
+//        Session[][] sessionTable = new Session[8][7];
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
 
 //        User user = (User) request.getSession().getAttribute("user");
-        Lecturer lecturer = (Lecturer) request.getSession().getAttribute("lecturer");
-        sessionList = sessionDBC.listSessionOfLecturerByWeek(lecturer,
+        Student student = (Student) request.getSession().getAttribute("student");
+        sessionList = sessionDBC.listSessionOfStudentByWeek(student,
                 new Date(calendar.getTimeInMillis()));
 
         calendar.setFirstDayOfWeek(1);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         ArrayList<Date> weekDate = new ArrayList<>();
-
+        
         Date sun = new Date(calendar.getTimeInMillis());        //Sunday
         weekDate.add(sun);
         calendar.add(Calendar.DATE, 1);
@@ -174,13 +183,14 @@ public class ScheduleController extends HttpServlet {
             long timeMinus = Math.abs(session.getDate().getTime() - sun.getTime());
             long daysMinus = TimeUnit.DAYS.convert(timeMinus, TimeUnit.MILLISECONDS);
 
-            sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
+//            sessionTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = session;
+            attendanceTable[session.getSlot().getSlotNo() - 1][(int) daysMinus] = attendanceDBC.get(new Attendance(session, student));
         }
         request.setAttribute("weekDate", weekDate);
-        request.setAttribute("slotList", slotDBC.list());
+            request.setAttribute("slotList", slotDBC.list());
         request.getSession().setAttribute("date", date);
-        request.getSession().setAttribute("schedule", sessionTable);
-        request.getRequestDispatcher("view/lecturer/Home.jsp").forward(request, response);
+        request.getSession().setAttribute("schedule", attendanceTable);
+        request.getRequestDispatcher("view/student/Home.jsp").forward(request, response);
 //        String choosenDate = request.getParameter("date");
     }
 

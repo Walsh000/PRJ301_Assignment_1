@@ -14,7 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/Template.css" rel="stylesheet" type="text/css"/>
         <link href="css/Schedule.css" rel="stylesheet" type="text/css"/>
-        <title>Assignment homepage</title>
+        <title>Lecturer homepage</title>
     </head>
     <body>
         <header>

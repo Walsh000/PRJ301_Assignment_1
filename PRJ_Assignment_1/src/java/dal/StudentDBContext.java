@@ -22,6 +22,26 @@ import object.User;
  */
 public class StudentDBContext extends DBContext<Student> {
     
+    public Student get(User user) {
+        Student lecturer = null;
+        try {
+            String sql = "SELECT [StudentID] FROM Student s"
+                    + " INNER JOIN [User] u ON u.UserID = s.UserID"
+                    + " WHERE u.UserID = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, user.getUserID());
+            ResultSet results = statement.executeQuery();
+
+            if (results.next()) {
+                lecturer = new Student(user, results.getString("StudentID"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(LecturerDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lecturer;
+    }
+
     public ArrayList<Student> list(Group group) {
         try {
             String groupID = group.getGroupID();

@@ -42,15 +42,15 @@ public class AttendanceDBContext extends DBContext<Attendance> {
             statement.setString(1, group.getGroupID());
             ResultSet results = statement.executeQuery();
             while (results.next()) {
-                AttendanceStatus attendanceStatus = 
-                        new AttendanceStatus(
-                                new Student(new User(results.getString("UserID"), 
-                                        results.getString("Username")), 
-                                        results.getString("StudentID")), 
-                                group, 
-                                (double) results.getInt("countSession") / courseDBC.get(new Group(results.getString("GroupID"), new Course(results.getString("CourseID")))).getNumberOfSession(), 
-                                (double) results.getInt("countAttendance")/results.getInt("countSession"),
-                        (double) (results.getInt("countSession") - results.getInt("countAttendance"))/results.getInt("countSession"));
+                AttendanceStatus attendanceStatus
+                        = new AttendanceStatus(
+                                new Student(new User(results.getString("UserID"),
+                                        results.getString("Username")),
+                                        results.getString("StudentID")),
+                                group,
+                                (double) results.getInt("countSession") / courseDBC.get(new Group(results.getString("GroupID"), new Course(results.getString("CourseID")))).getNumberOfSession(),
+                                (double) results.getInt("countAttendance") / results.getInt("countSession"),
+                                (double) (results.getInt("countSession") - results.getInt("countAttendance")) / results.getInt("countSession"));
                 attendanceStatusList.add(attendanceStatus);
             }
             return attendanceStatusList;
@@ -101,7 +101,25 @@ public class AttendanceDBContext extends DBContext<Attendance> {
 
     @Override
     public Attendance get(Attendance entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            String sql = "SELECT [StudentID]\n"
+                    + "      ,[SessionID]\n"
+                    + "      ,[Attendance]\n"
+                    + "  FROM [Attendance]"
+                    + "  WHERE [StudentID]=?\n"
+                    + "  AND SessionID=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, entity.getStudent().getStudentID());
+            statement.setString(2, entity.getSession().getSessionID());
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                Attendance attendance = new Attendance(entity.getSession(), entity.getStudent(), result.getBoolean("Attendance"));
+                return attendance;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override

@@ -55,6 +55,11 @@ public class Attendance {
     public void setIsAttend(boolean isAttend) {
         this.isAttend = isAttend;
     }
+
+    @Override
+    public String toString() {
+        return "Attendance{" + "session=" + session + ", student=" + student + ", isAttend=" + isAttend + '}';
+    }
     
     
 }

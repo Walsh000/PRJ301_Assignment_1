@@ -5,6 +5,7 @@
 package controller;
 
 import dal.LecturerDBContext;
+import dal.StudentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import object.Lecturer;
+import object.Student;
 import object.User;
 
 /**
@@ -42,7 +44,11 @@ public class HomeController extends HttpServlet {
             request.getSession().setAttribute("lecturer", lecturer);
             request.getRequestDispatcher("/schedule").forward(request, response);
         } else {
-            request.getRequestDispatcher("view/student/Home.jsp").forward(request, response);
+            StudentDBContext studentDBC = new StudentDBContext();
+            Student student = studentDBC.get(user);
+            request.getSession().setAttribute("student", student);
+            request.getRequestDispatcher("/studentSchedule").forward(request, response);
+//            request.getRequestDispatcher("view/student/Home.jsp").forward(request, response);
         }
     }
 

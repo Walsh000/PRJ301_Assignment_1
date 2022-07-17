@@ -102,6 +102,40 @@ public class SessionDBContext extends DBContext<Session> {
         return sessionList;
     }
 
+    public ArrayList<Session> listSessionOfStudentByWeek(Student student, Date date) {
+        ArrayList<Session> sessionList = new ArrayList<>();
+        try {
+            String sql = "  select SessionID, LecturerID, g.GroupID, [Date], SlotNo, RoomID, attendanceChecked \n"
+                    + "  from [Session] s \n"
+                    + "  inner join [Group] g on s.GroupID = g.GroupID\n"
+                    + "  inner join [Enroll] e on e.GroupID = g.GroupID\n"
+                    + "  where StudentID = ?\n"
+                    + "  and DATEPART(wk, [Date]) = DATEPART(wk, ?)\n"
+                    + "  AND DATEPART(yy, [Date]) = DATEPART(yy, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, student.getStudentID());
+            statement.setDate(2, date);
+            statement.setDate(3, date);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Session session = new Session(resultSet.getString("SessionID"),
+                        new Lecturer(resultSet.getString("LecturerID")),
+                        new Slot(resultSet.getInt("SlotNo")),
+                        new Group(resultSet.getString("GroupID")),
+                        resultSet.getDate("Date"),
+                        new Room(resultSet.getString("RoomID")));
+                session.setAttendanceChecked(resultSet.getBoolean("attendanceChecked"));
+                sessionList.add(session);
+            }
+
+            return sessionList;
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public ArrayList<Session> listSessionOfLecturerByWeek(Lecturer lecturer, Date date) {
         ArrayList<Session> sessionList = new ArrayList<>();
         try {

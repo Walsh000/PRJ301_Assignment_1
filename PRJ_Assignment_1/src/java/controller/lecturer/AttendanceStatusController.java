@@ -39,8 +39,10 @@ public class AttendanceStatusController extends HttpServlet {
 
         LecturerDBContext lecturerDBC = new LecturerDBContext();
         GroupDBContext groupDBC = new GroupDBContext();
-        User user = (User) request.getSession().getAttribute("user");
-        Lecturer sessionLecturer = lecturerDBC.get(user);
+        Lecturer sessionLecturer = (Lecturer) request.getSession().getAttribute("lecturer");
+
+//        User user = (User) request.getSession().getAttribute("user");
+//        Lecturer sessionLecturer = lecturerDBC.get(user);
 //        groupDBC.list(sessionLecturer);
         ArrayList<Group> groupList = groupDBC.list(sessionLecturer);
         request.getSession().setAttribute("groupList", groupList);

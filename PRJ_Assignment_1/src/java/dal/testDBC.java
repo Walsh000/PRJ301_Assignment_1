@@ -31,14 +31,16 @@ public class testDBC {
         GroupDBContext groupDBC = new GroupDBContext();
         RoleDBContext roleDBC = new RoleDBContext();
         AttendanceDBContext attendanceDBC = new AttendanceDBContext();
-        Group group = new Group("CEA201SU2201");
-        System.out.println(attendanceDBC.getAttendanceStatus(group));
+//        Group group = new Group("CEA201SU2201");
+//        System.out.println(attendanceDBC.getAttendanceStatus(group));
         
 //        attendanceDBC.generateData();
 //        System.out.println(roleDBC.list());
 
-//        ArrayList<Session> sessionList;
+        ArrayList<Session> sessionList;
 //        sessionList = sessionDBC.listSessionOfLecturerByWeek(new Lecturer("LT000001"), Date.valueOf("2022-07-11"));
+        sessionList = sessionDBC.listSessionOfStudentByWeek(new Student("ST000021"), Date.valueOf("2022-06-20"));
+        System.out.println(sessionList);
 //        Feature feature = new Feature();
 //        feature.setUrl("/lecturer/attendance");
 //        ArrayList<Role> roleList = roleDBC.list(feature);
