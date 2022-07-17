@@ -128,7 +128,7 @@ public class AttendanceUserFilter implements Filter {
             session.setSlot(new Slot(Integer.parseInt(request.getParameter("slotNo"))));
             session = sessionDBC.get(session);
             
-            if (session.getLecturer().getLecturerID().equals(sessionLecturer.getLecturerID())) {
+            if (session != null && session.getLecturer().getLecturerID().equals(sessionLecturer.getLecturerID())) {
                 req.setAttribute("session", session);
                 chain.doFilter(request, response);
             } else {
