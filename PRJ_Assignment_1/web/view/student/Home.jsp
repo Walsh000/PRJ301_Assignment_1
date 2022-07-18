@@ -40,7 +40,6 @@
                 </table>
                 <div class="dropdown-content">
                     <a href="logout">Logout</a>
-                    <a href="attendanceStatus">Attendance status</a>
                 </div>
             </div>
         </header>
